@@ -73,7 +73,7 @@ export function YaraRuleTable({
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell sx={{ px: 10 }}>Name</TableCell>
               <TableCell>File</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -82,8 +82,31 @@ export function YaraRuleTable({
             {rules.map((rule) => (
               <TableRow key={rule.id} hover>
                 <TableCell>{rule.id}</TableCell>
-                <TableCell>{rule.name}</TableCell>
-                <TableCell>{rule.file}</TableCell>
+                <TableCell sx={{ px: 10 }}>{rule.name}</TableCell>
+                <TableCell>
+                  <a
+                    href={rule.file}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textDecoration: 'none',
+                      color: 'inherit',
+                    }}
+                  >
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <span>{rule.file}</span>
+                      <Tooltip title="Download file" arrow>
+                        <IconButton>
+                          <Iconify icon="mdi:download" />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  </a>
+                </TableCell>
+
                 <TableCell align="right">
                   <Stack direction="row" spacing={1} justifyContent="flex-end">
                     <Tooltip title="Edit" placement="top" arrow>

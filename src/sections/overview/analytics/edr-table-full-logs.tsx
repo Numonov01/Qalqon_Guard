@@ -11,9 +11,8 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { fDate } from 'src/utils/format-time';
+import { fDateTime } from 'src/utils/format-time';
 
-import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
@@ -32,9 +31,9 @@ export function OrderTableRow({ row }: Props) {
 
         <TableCell>{row.device.risk_ball}</TableCell>
 
-        <TableCell>{fDate(row.created_at)}</TableCell>
+        <TableCell>{fDateTime(row.created_at)}</TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <Label
             variant="soft"
             color={
@@ -45,7 +44,7 @@ export function OrderTableRow({ row }: Props) {
           >
             {row.device.is_active ? 'Active' : 'Inactive'}
           </Label>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton
@@ -90,7 +89,9 @@ export function OrderTableRow({ row }: Props) {
                     }}
                   />
                   {row.device.ip_addres}
-                  <Box sx={{ width: 210, textAlign: 'right' }}>{fDate(row.device.created_at)}</Box>
+                  <Box sx={{ width: 210, textAlign: 'right' }}>
+                    {fDateTime(row.device.created_at)}
+                  </Box>
                 </Stack>
               )}
             </Paper>

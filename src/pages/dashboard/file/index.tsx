@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { OverviewFileView } from 'src/sections/overview/file/view/overview-file-view';
+import OverviewFileView from 'src/sections/overview/file/view/overview-file-view';
 
 // ----------------------------------------------------------------------
 

@@ -1,5 +1,7 @@
 import type { EdrLogs } from 'src/types/device';
 
+import React from 'react';
+
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -40,7 +42,6 @@ export function OrderTableRow({ row }: Props) {
             color={
               (row.log_type === 'WARNING' && 'warning') ||
               (row.log_type === 'ERROR' && 'secondary') ||
-              (row.log_type === 'INFO' && 'info') ||
               'default'
             }
           >

@@ -50,7 +50,7 @@ export const navData = [
     subheader: 'Overview',
     items: [
       { title: 'Zararli fayllar', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Analytics', path: paths.dashboard.general.analytics, icon: ICONS.analytics },
+      { title: 'Edr loglar', path: paths.dashboard.general.analytics, icon: ICONS.blog },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
       // { title: 'Course', path: paths.dashboard.general.course, icon: ICONS.course },
     ],
@@ -68,7 +68,7 @@ export const navData = [
         children: [
           { title: 'List', path: paths.dashboard.user.list },
           { title: 'Create', path: paths.dashboard.user.new },
-          { title: 'Edit', path: paths.dashboard.user.demo.edit },
+          // { title: 'Edit', path: paths.dashboard.user.demo.edit },
         ],
       },
     ],

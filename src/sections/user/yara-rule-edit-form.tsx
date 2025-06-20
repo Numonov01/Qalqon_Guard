@@ -130,7 +130,7 @@ export function NewEditForm({ yaraRule }: Props) {
               rowGap={3}
               columnGap={2}
               display="grid"
-              gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
+              // gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
             >
               <Field.Text name="name" label="Yara rule name" />
             </Box>

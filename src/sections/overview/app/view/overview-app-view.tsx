@@ -2,7 +2,6 @@ import type { EdrLogs } from 'src/types/device';
 
 import { useMemo, useState } from 'react';
 
-import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Card,
@@ -39,7 +38,6 @@ import { AppTopAuthors } from '../edr-info';
 import { OrderTableRow } from '../edr-table-logs';
 import { UserTable } from '../overview-device-table';
 import { EdrTableToolbar } from '../edr-table-toolbar';
-import { AppWidgetSummary } from '../app-widget-summary';
 import { LogStatsChart } from '../ecommerce-yearly-sales';
 
 const TABLE_HEAD = [
@@ -84,62 +82,8 @@ export default function OverviewAppView() {
     setPage(0);
   };
 
-  const theme = useTheme();
   return (
     <DashboardContent maxWidth="xl">
-      <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="All"
-            percent={-2.6}
-            total={tableData.length}
-            chart={{
-              colors: [theme.vars.palette.info.dark],
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [15, 12, 12, 51, 28, 11, 79, 37],
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Low"
-            percent={2.6}
-            total={tableData.filter((log) => log.log_type === 'INFO').length}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [15, 18, 12, 51, 68, 11, 39, 37],
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Medium"
-            percent={0.2}
-            total={tableData.filter((log) => log.log_type === 'WARNING').length}
-            chart={{
-              colors: [theme.vars.palette.info.main],
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [20, 41, 63, 33, 28, 35, 50, 46],
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="High"
-            percent={-0.1}
-            total={tableData.filter((log) => log.log_type === 'ERROR').length}
-            chart={{
-              colors: [theme.vars.palette.error.main],
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [18, 19, 31, 8, 16, 37, 12, 33],
-            }}
-          />
-        </Grid>
-      </Grid>
-
       <Card sx={{ mb: 3 }}>
         <Stack spacing={2} sx={{ px: 2, mt: 3, mb: 2 }}>
           <Stack direction="row" spacing={2} alignItems="center">

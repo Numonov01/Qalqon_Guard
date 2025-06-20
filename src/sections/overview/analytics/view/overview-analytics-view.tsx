@@ -26,7 +26,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Name' },
   { id: 'risk_ball', label: 'Risk ball' },
   { id: 'created_at', label: 'Created at' },
-  { id: 'is_active', label: 'Status' },
+  // { id: 'is_active', label: 'Status' },
   { id: '', width: 88 },
 ];
 

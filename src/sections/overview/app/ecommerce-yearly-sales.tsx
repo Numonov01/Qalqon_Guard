@@ -1,7 +1,6 @@
 import type { CardProps } from '@mui/material/Card';
-import type { ChartOptions } from 'src/components/chart';
 
-import { useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
@@ -9,71 +8,85 @@ import CardHeader from '@mui/material/CardHeader';
 
 import { fShortenNumber } from 'src/utils/format-number';
 
-import { Chart, useChart, ChartSelect, ChartLegends } from 'src/components/chart';
-
-// ----------------------------------------------------------------------
+import { Chart, useChart } from 'src/components/chart';
 
 type Props = CardProps & {
   title?: string;
   subheader?: string;
-  chart: {
-    colors?: string[];
-    categories?: string[];
-    series: {
-      name: string;
-      data: {
-        name: string;
-        data: number[];
-      }[];
-    }[];
-    options?: ChartOptions;
-  };
 };
 
-export function EcommerceYearlySales({ title, subheader, chart, ...other }: Props) {
+type LogStatsData = {
+  log_stats: {
+    WARNING: number;
+    ERROR: number;
+  };
+  timestamp: string;
+};
+
+export function LogStatsChart({ title, subheader, ...other }: Props) {
   const theme = useTheme();
+  const [logData, setLogData] = useState<LogStatsData[]>([]);
+  const [ws, setWs] = useState<WebSocket | null>(null);
 
-  const [selectedSeries, setSelectedSeries] = useState('2023');
+  useEffect(() => {
+    const websocket = new WebSocket('ws://192.168.0.173:8000/ws/log-stats/');
+    setWs(websocket);
 
-  const chartColors = chart.colors ?? [theme.palette.primary.main, theme.palette.warning.main];
+    websocket.onmessage = (event) => {
+      const data: LogStatsData = JSON.parse(event.data);
+      setLogData((prev) => {
+        const newData = [...prev, data];
+        return newData.slice(-20);
+      });
+    };
 
-  const chartOptions = useChart({
-    colors: chartColors,
-    xaxis: { categories: chart.categories },
-    ...chart.options,
-  });
+    websocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
 
-  const handleChangeSeries = useCallback((newValue: string) => {
-    setSelectedSeries(newValue);
+    return () => {
+      websocket.close();
+    };
   }, []);
 
-  const currentSeries = chart.series.find((i) => i.name === selectedSeries);
+  const categories = logData.map((item) => new Date(item.timestamp).toLocaleTimeString());
+
+  const series = [
+    {
+      name: 'WARNING',
+      data: logData.map((item) => item.log_stats.WARNING),
+    },
+    {
+      name: 'ERROR',
+      data: logData.map((item) => item.log_stats.ERROR),
+    },
+  ];
+
+  const chartOptions = useChart({
+    colors: [theme.palette.primary.main, theme.palette.warning.main, theme.palette.error.main],
+    stroke: {
+      width: 2,
+    },
+    xaxis: {
+      categories,
+      labels: {
+        rotate: -45,
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: (value: number) => fShortenNumber(value),
+      },
+    },
+  });
 
   return (
     <Card {...other}>
-      <CardHeader
-        title={title}
-        subheader={subheader}
-        action={
-          <ChartSelect
-            options={chart.series.map((item) => item.name)}
-            value={selectedSeries}
-            onChange={handleChangeSeries}
-          />
-        }
-        sx={{ mb: 3 }}
-      />
-
-      <ChartLegends
-        colors={chartOptions?.colors}
-        labels={chart.series[0].data.map((item) => item.name)}
-        values={[fShortenNumber(1234), fShortenNumber(6789)]}
-        sx={{ px: 3, gap: 3 }}
-      />
+      <CardHeader title={title || 'Log Statistics'} />
 
       <Chart
-        type="area"
-        series={currentSeries?.data}
+        type="line"
+        series={series}
         options={chartOptions}
         height={320}
         sx={{ py: 2.5, pl: 1, pr: 2.5 }}

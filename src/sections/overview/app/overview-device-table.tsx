@@ -56,7 +56,7 @@ export function UserTable({
         const ws = new WebSocket('ws://192.168.0.173:8000/ws/frontend/devices/');
 
         ws.onopen = () => {
-          console.log('✅ WebSocket connected');
+          console.log('WebSocket connected device table');
           setConnectionAttempts(0);
         };
 

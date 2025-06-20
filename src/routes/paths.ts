@@ -117,16 +117,14 @@ export const paths = {
         edit: `${ROOTS.DASHBOARD}/user/${MOCK_ID}/edit`,
       },
     },
-    athlete: {
-      root: `${ROOTS.DASHBOARD}/athlete`,
-      new: `${ROOTS.DASHBOARD}/athlete/new`,
-      list: `${ROOTS.DASHBOARD}/athlete/list`,
-      cards: `${ROOTS.DASHBOARD}/athlete/cards`,
-      profile: `${ROOTS.DASHBOARD}/athlete/profile`,
-      // account: `${ROOTS.DASHBOARD}/athlete/account`,
-      edit: (id: string) => `${ROOTS.DASHBOARD}/athlete/${id}/edit`,
+    product: {
+      root: `${ROOTS.DASHBOARD}/product`,
+      new: `${ROOTS.DASHBOARD}/product/new`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/product/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/product/${id}/edit`,
       demo: {
-        edit: `${ROOTS.DASHBOARD}/athlete/${MOCK_ID}/edit`,
+        details: `${ROOTS.DASHBOARD}/product/${MOCK_ID}`,
+        edit: `${ROOTS.DASHBOARD}/product/${MOCK_ID}/edit`,
       },
     },
   },

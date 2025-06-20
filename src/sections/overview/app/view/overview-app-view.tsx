@@ -1,15 +1,18 @@
-import type { Device } from 'src/types/device';
+import type { EdrLogs } from 'src/types/device';
 
 import { useMemo, useState } from 'react';
 
 import { useTheme } from '@mui/material/styles';
 import {
+  Box,
   Card,
   Grid,
   Stack,
+  Table,
   Select,
   MenuItem,
   TextField,
+  TableBody,
   InputLabel,
   FormControl,
   InputAdornment,
@@ -17,17 +20,35 @@ import {
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { useEdrLogs } from 'src/service/edr-logs';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+import {
+  useTable,
+  emptyRows,
+  TableNoData,
+  getComparator,
+  TableEmptyRows,
+  TableHeadCustom,
+  TablePaginationCustom,
+} from 'src/components/table';
 
 import { AppTopAuthors } from '../edr-info';
+import { OrderTableRow } from '../edr-table-logs';
 import { UserTable } from '../overview-device-table';
+import { EdrTableToolbar } from '../edr-table-toolbar';
 import { AppWidgetSummary } from '../app-widget-summary';
-import { EcommerceYearlySales } from '../ecommerce-yearly-sales';
-import { AnalyticsCurrentVisits } from '../analytics-current-visits';
+import { LogStatsChart } from '../ecommerce-yearly-sales';
 
-// ----------------------------------------------------------------------
+const TABLE_HEAD = [
+  { id: 'id', label: 'Id' },
+  { id: 'direction', label: 'Direction' },
+  { id: 'action', label: 'Action' },
+  { id: 'log_type', label: 'Log type' },
+  { id: '', width: 88 },
+];
 
 export default function OverviewAppView() {
   const dense = useBoolean(false);
@@ -35,7 +56,18 @@ export default function OverviewAppView() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
   const [deviceFilter, setDeviceFilter] = useState('all');
-  const [devices] = useState<Device[]>([]);
+  const { tableData, devices, loading } = useEdrLogs();
+
+  const table = useTable({ defaultOrderBy: 'orderNumber' });
+  const [filterName, setFilterName] = useState('');
+
+  const dataFiltered = applyFilter({
+    inputData: tableData,
+    comparator: getComparator(table.order, table.orderBy),
+    filterName,
+  });
+
+  const notFound = !dataFiltered.length;
 
   const availableDevice = useMemo(() => {
     const deviceSet = new Set(devices.map((d) => d.name));
@@ -60,7 +92,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="All"
             percent={-2.6}
-            total={24765}
+            total={tableData.length}
             chart={{
               colors: [theme.vars.palette.info.dark],
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
@@ -73,7 +105,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="Low"
             percent={2.6}
-            total={18765}
+            total={tableData.filter((log) => log.log_type === 'INFO').length}
             chart={{
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
               series: [15, 18, 12, 51, 68, 11, 39, 37],
@@ -85,7 +117,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="Medium"
             percent={0.2}
-            total={4876}
+            total={tableData.filter((log) => log.log_type === 'WARNING').length}
             chart={{
               colors: [theme.vars.palette.info.main],
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
@@ -98,7 +130,7 @@ export default function OverviewAppView() {
           <AppWidgetSummary
             title="High"
             percent={-0.1}
-            total={678}
+            total={tableData.filter((log) => log.log_type === 'ERROR').length}
             chart={{
               colors: [theme.vars.palette.error.main],
               categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
@@ -161,72 +193,90 @@ export default function OverviewAppView() {
         <AppTopAuthors title="Edr info" />
       </Grid>
 
-      <Grid container spacing={2} sx={{ mt: 3 }}>
-        <Grid item xs={12} md={6} lg={4}>
-          <AnalyticsCurrentVisits
-            title="Current visits"
-            chart={{
-              series: [
-                { label: 'sardor', value: 3500 },
-                { label: 'msi', value: 2500 },
-                { label: 'pc', value: 1500 },
-                { label: 'HP', value: 500 },
-              ],
-            }}
-          />
-        </Grid>
+      <Card sx={{ mt: 3 }}>
+        <EdrTableToolbar
+          filterName={filterName}
+          onFilterName={(e) => setFilterName(e.target.value)}
+        />
 
-        <Grid item xs={12} md={6} lg={8}>
-          <EcommerceYearlySales
-            title="Yearly sales"
-            subheader="(+43%) than last year"
-            chart={{
-              categories: [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec',
-              ],
-              series: [
-                {
-                  name: '2022',
-                  data: [
-                    {
-                      name: 'Total income',
-                      data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 35, 51, 49],
-                    },
-                    {
-                      name: 'Total expenses',
-                      data: [10, 34, 13, 56, 77, 88, 99, 77, 45, 13, 56, 77],
-                    },
-                  ],
-                },
-                {
-                  name: '2023',
-                  data: [
-                    {
-                      name: 'Total income',
-                      data: [51, 35, 41, 10, 91, 69, 62, 148, 91, 69, 62, 49],
-                    },
-                    {
-                      name: 'Total expenses',
-                      data: [56, 13, 34, 10, 77, 99, 88, 45, 77, 99, 88, 77],
-                    },
-                  ],
-                },
-              ],
-            }}
-          />
+        <Box sx={{ position: 'relative' }}>
+          <Scrollbar sx={{ minHeight: 444 }}>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={dataFiltered.length}
+                onSort={table.onSort}
+              />
+
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row) => (
+                    <OrderTableRow key={row.id} row={row} />
+                  ))}
+
+                <TableEmptyRows
+                  height={table.dense ? 56 : 56 + 20}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
+                />
+
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </Box>
+
+        <TablePaginationCustom
+          page={table.page}
+          dense={table.dense}
+          count={dataFiltered.length}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+        />
+      </Card>
+
+      <Grid container spacing={2} sx={{ mt: 3 }}>
+        <Grid item xs={12} md={12} lg={12}>
+          <LogStatsChart title="Real-time Edr Logs" />
         </Grid>
       </Grid>
     </DashboardContent>
   );
+}
+
+function applyFilter({
+  inputData,
+  comparator,
+  filterName,
+}: {
+  inputData: EdrLogs[];
+  comparator: (a: any, b: any) => number;
+  filterName: string;
+}) {
+  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
+
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  let data = stabilizedThis.map((el) => el[0]);
+
+  if (filterName) {
+    data = data.filter(
+      (order) =>
+        order.action.toLowerCase().includes(filterName.toLowerCase()) ||
+        order.direction.toLowerCase().includes(filterName.toLowerCase()) ||
+        (order.device?.name.toLowerCase().includes(filterName.toLowerCase()) ?? false)
+    );
+  }
+
+  return data;
 }

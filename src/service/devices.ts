@@ -1,4 +1,4 @@
-import type { Device, EdrInfo, DeviceList } from 'src/types/device';
+import type { Device, EdrInfo, EdrLogs, DeviceList } from 'src/types/device';
 
 import axios from 'axios';
 
@@ -28,6 +28,16 @@ export const fetchDeviceList = async (): Promise<Device[]> => {
 export const fetchEdrInfo = async (): Promise<EdrInfo> => {
   try {
     const response = await api.get('/malicious_file_detects/edr-info/', {});
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching device list:', error);
+    throw error;
+  }
+};
+
+export const fetchEdrLogs = async (): Promise<EdrLogs> => {
+  try {
+    const response = await api.get('/malicious_file_detects/edr-logs/', {});
     return response.data;
   } catch (error) {
     console.error('Error fetching device list:', error);

@@ -17,9 +17,7 @@ const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 // const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
 // User
 const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
-const UserCardsPage = lazy(() => import('src/pages/dashboard/user/cards'));
 const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
-const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
 const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
 const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
 // ----------------------------------------------------------------------
@@ -46,12 +44,9 @@ export const dashboardRoutes = [
         path: 'user',
         children: [
           { element: <UserProfilePage />, index: true },
-          { path: 'profile', element: <UserProfilePage /> },
-          { path: 'cards', element: <UserCardsPage /> },
           { path: 'list', element: <UserListPage /> },
           { path: 'new', element: <UserCreatePage /> },
           { path: ':id/edit', element: <UserEditPage /> },
-          { path: 'account', element: <UserAccountPage /> },
         ],
       },
     ],

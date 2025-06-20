@@ -56,7 +56,7 @@ export default function OverviewAppView() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
   const [deviceFilter, setDeviceFilter] = useState('all');
-  const { tableData, devices, loading } = useEdrLogs();
+  const { tableData, devices } = useEdrLogs();
 
   const table = useTable({ defaultOrderBy: 'orderNumber' });
   const [filterName, setFilterName] = useState('');

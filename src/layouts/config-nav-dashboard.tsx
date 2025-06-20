@@ -62,9 +62,9 @@ export const navData = [
     subheader: 'Management',
     items: [
       {
-        title: 'Admin',
+        title: 'Yara rule',
         path: paths.dashboard.user.root,
-        icon: ICONS.user,
+        icon: ICONS.disabled,
         children: [
           { title: 'List', path: paths.dashboard.user.list },
           { title: 'Create', path: paths.dashboard.user.new },

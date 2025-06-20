@@ -26,11 +26,9 @@ type LogStatsData = {
 export function LogStatsChart({ title, subheader, ...other }: Props) {
   const theme = useTheme();
   const [logData, setLogData] = useState<LogStatsData[]>([]);
-  const [ws, setWs] = useState<WebSocket | null>(null);
 
   useEffect(() => {
     const websocket = new WebSocket('ws://192.168.0.173:8000/ws/log-stats/');
-    setWs(websocket);
 
     websocket.onmessage = (event) => {
       const data: LogStatsData = JSON.parse(event.data);

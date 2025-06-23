@@ -71,6 +71,16 @@ export const navData = [
           // { title: 'Edit', path: paths.dashboard.user.demo.edit },
         ],
       },
+      {
+        title: 'Signaturalar',
+        path: paths.dashboard.signature.root,
+        icon: ICONS.booking,
+        children: [
+          { title: 'List', path: paths.dashboard.signature.list },
+          { title: 'Create', path: paths.dashboard.signature.new },
+          // { title: 'Edit', path: paths.dashboard.signature.demo.edit },
+        ],
+      },
     ],
   },
 ];

@@ -4,19 +4,17 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { NewEditForm } from '../yara-rule-edit-form';
+import { NewEditForm } from '../signature-edit-form';
 
-// ----------------------------------------------------------------------
-
-export function UserCreateView() {
+export function SignatureCreateView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Create a new user"
+        heading="Create a new signature"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'User', href: paths.dashboard.user.root },
-          { name: 'New user' },
+          { name: 'Signatures', href: paths.dashboard.signature.root },
+          { name: 'New Signature' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

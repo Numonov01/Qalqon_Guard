@@ -39,7 +39,7 @@ export function UserEditView({ rule: yaraRule }: Props) {
   }, [id]);
 
   return (
-    <DashboardContent>
+    <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
         heading="Edit"
         links={[

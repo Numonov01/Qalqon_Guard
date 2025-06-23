@@ -1,12 +1,9 @@
-import type { YaraRule } from 'src/types/yara-rule';
+import type { Signature } from 'src/types/signature';
 
 import { useMemo, useState, useEffect } from 'react';
 
-import { Card } from '@mui/material';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+import { Card, Stack, TextField, InputAdornment } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -14,59 +11,60 @@ import { RouterLink } from 'src/routes/components';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { deleteRule, fetchYaraRuleList } from 'src/service/yara-rule';
+import { deleteSignature, fetchSignatureList } from 'src/service/signature';
 
 import { Iconify } from 'src/components/iconify';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { YaraRuleTable } from '../yara-rule-list-table';
+import { SignatureTable } from '../signature-list-table';
 
-export function YaraRuleListView() {
+export function SignatureListView() {
   const dense = useBoolean(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
-  const [rules, setRules] = useState<YaraRule[]>([]);
+  const [signatures, setSignatures] = useState<Signature[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const loadRules = async () => {
+  const loadSignatures = async () => {
     try {
       setLoading(true);
-      const data = await fetchYaraRuleList();
-      setRules(Array.isArray(data) ? data : [data]);
+      const data = await fetchSignatureList();
+      setSignatures(Array.isArray(data) ? data : [data]);
     } catch (error) {
-      console.error('Failed to load rules:', error);
-      setRules([]);
+      console.error('Failed to load signatures:', error);
+      setSignatures([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadRules();
+    loadSignatures();
   }, []);
 
-  const filteredRules = useMemo(
+  const filteredSignatures = useMemo(
     () =>
-      rules.filter((rule) => {
-        const fullName = `${rule.name} ${rule.file}`.toLowerCase();
-        return fullName.includes(searchQuery.toLowerCase());
+      signatures.filter((signature) => {
+        const searchString =
+          `${signature.title} ${signature.file_type} ${signature.sha256} ${signature.md5}`.toLowerCase();
+        return searchString.includes(searchQuery.toLowerCase());
       }),
-    [rules, searchQuery]
+    [signatures, searchQuery]
   );
 
-  const paginatedRules = useMemo(
-    () => filteredRules.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [filteredRules, page, rowsPerPage]
+  const paginatedSignatures = useMemo(
+    () => filteredSignatures.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [filteredSignatures, page, rowsPerPage]
   );
 
   const handleDeleteRow = async (id: string) => {
     try {
       setLoading(true);
-      await deleteRule(Number(id));
-      setRules((prev) => prev.filter((rule) => String(rule.id) !== id));
+      await deleteSignature(Number(id));
+      await loadSignatures(); // Refresh the list after deletion
     } catch (error) {
-      console.error('Failed to delete rule:', error);
+      console.error('Failed to delete signature:', error);
     } finally {
       setLoading(false);
     }
@@ -80,25 +78,24 @@ export function YaraRuleListView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Yara rule"
+        heading="Signatures"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Rule', href: paths.dashboard.user.root },
+          { name: 'Signatures', href: paths.dashboard.signature.root },
           { name: 'List' },
         ]}
         action={
           <Button
             component={RouterLink}
-            href={paths.dashboard.user.new}
+            href={paths.dashboard.signature.new}
             variant="contained"
             startIcon={<Iconify icon="mingcute:add-line" />}
           >
-            New rule
+            New Signature
           </Button>
         }
         sx={{ mb: { xs: 3, md: 5 } }}
       />
-
       <Card>
         <Stack spacing={2} sx={{ p: 3 }}>
           <Stack direction="row" spacing={2} alignItems="center">
@@ -107,7 +104,7 @@ export function YaraRuleListView() {
               size="small"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Search rules..."
+              placeholder="Search signatures..."
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -120,13 +117,13 @@ export function YaraRuleListView() {
           </Stack>
         </Stack>
 
-        <YaraRuleTable
-          rules={paginatedRules}
+        <SignatureTable
+          signatures={paginatedSignatures}
           dense={dense.value}
           onDeleteRow={handleDeleteRow}
           page={page}
           rowsPerPage={rowsPerPage}
-          count={filteredRules.length}
+          count={filteredSignatures.length}
           onPageChange={(newPage) => setPage(newPage)}
           onRowsPerPageChange={(newRowsPerPage) => {
             setRowsPerPage(newRowsPerPage);

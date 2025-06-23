@@ -20,6 +20,11 @@ const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
 const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
 const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
 const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
+
+// Signature
+const SignatureListPage = lazy(() => import('src/pages/dashboard/signature/list'));
+const SignatureCreatePage = lazy(() => import('src/pages/dashboard/signature/new'));
+const SignatureEditPage = lazy(() => import('src/pages/dashboard/signature/edit'));
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -47,6 +52,15 @@ export const dashboardRoutes = [
           { path: 'list', element: <UserListPage /> },
           { path: 'new', element: <UserCreatePage /> },
           { path: ':id/edit', element: <UserEditPage /> },
+        ],
+      },
+      {
+        path: 'signature',
+        children: [
+          // { element: <SignatureProfilePage />, index: true },
+          { path: 'list', element: <SignatureListPage /> },
+          { path: 'new', element: <SignatureCreatePage /> },
+          { path: ':id/edit', element: <SignatureEditPage /> },
         ],
       },
     ],

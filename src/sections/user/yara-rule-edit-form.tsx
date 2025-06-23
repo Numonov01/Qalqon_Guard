@@ -17,9 +17,10 @@ import { useRouter } from 'src/routes/hooks';
 
 import { fData } from 'src/utils/format-number';
 
-import { toast } from 'src/components/snackbar';
-import { Form, Field } from 'src/components/hook-form'; // 🔁 Import create & update
 import { createRule, updateRule } from 'src/service/yara-rule';
+
+import { toast } from 'src/components/snackbar';
+import { Form, Field } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 

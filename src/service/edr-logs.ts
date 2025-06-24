@@ -10,7 +10,8 @@ export function useEdrLogs() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://192.168.0.173:8000/ws/edr-logs/');
+    const wsUrl = `${import.meta.env.VITE_WS_URL}ws/edr-logs/`;
+    const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       console.log('WebSocket connected');

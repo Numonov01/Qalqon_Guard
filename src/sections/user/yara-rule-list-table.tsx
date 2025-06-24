@@ -73,7 +73,7 @@ export function YaraRuleTable({
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell sx={{ px: 10 }}>Name</TableCell>
+              <TableCell>Name</TableCell>
               <TableCell>File</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -82,7 +82,7 @@ export function YaraRuleTable({
             {rules.map((rule) => (
               <TableRow key={rule.id} hover>
                 <TableCell>{rule.id}</TableCell>
-                <TableCell sx={{ px: 10 }}>{rule.name}</TableCell>
+                <TableCell>{rule.name}</TableCell>
                 <TableCell>
                   <a
                     href={rule.file}

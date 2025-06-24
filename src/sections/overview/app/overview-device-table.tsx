@@ -53,7 +53,8 @@ export function UserTable({
 
     const connectWebSocket = () => {
       try {
-        const ws = new WebSocket('ws://192.168.0.173:8000/ws/frontend/devices/');
+        const wsUrl = `${import.meta.env.VITE_WS_URL}ws/frontend/devices/`;
+        const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
           console.log('WebSocket connected device table');

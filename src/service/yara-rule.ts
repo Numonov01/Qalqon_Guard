@@ -3,7 +3,7 @@ import type { YaraRule } from 'src/types/yara-rule';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.173:8000/',
+  baseURL: import.meta.env.VITE_QWERT_API,
 });
 
 export const fetchYaraRuleList = async (): Promise<YaraRule> => {

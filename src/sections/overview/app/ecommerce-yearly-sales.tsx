@@ -28,7 +28,8 @@ export function LogStatsChart({ title, subheader, ...other }: Props) {
   const [logData, setLogData] = useState<LogStatsData[]>([]);
 
   useEffect(() => {
-    const websocket = new WebSocket('ws://192.168.0.173:8000/ws/log-stats/');
+    const wsUrl = `${import.meta.env.VITE_WS_URL}ws/log-stats/`;
+    const websocket = new WebSocket(wsUrl);
 
     websocket.onmessage = (event) => {
       const data: LogStatsData = JSON.parse(event.data);

@@ -5,10 +5,9 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.173:8000/',
+  baseURL: import.meta.env.VITE_QWERT_API,
 });
 
-// Fetch API dan ro‘yxat olish
 export const fetchNotificationList = async (): Promise<WSNotification[]> => {
   try {
     const response = await api.get('/malicious_file_detects/approve-to-run/');
@@ -26,16 +25,14 @@ export const fetchNotificationList = async (): Promise<WSNotification[]> => {
   }
 };
 
-// WebSocket dan jonli ma’lumot olish
 export function useWebSocketNotifications() {
   const [notifications, setNotifications] = useState<WSNotification[]>([]);
 
   useEffect(() => {
-    // Step 1: Fetch initial list
     fetchNotificationList().then(setNotifications);
 
-    // Step 2: WebSocket ulanish
-    const ws = new WebSocket('ws://192.168.0.173:8000/ws/approve-frontend/');
+    const wsUrl = `${import.meta.env.VITE_WS_URL}ws/approve-frontend/`;
+    const ws = new WebSocket(wsUrl);
 
     ws.onmessage = (event) => {
       try {

@@ -62,7 +62,7 @@ export function SignatureListView() {
     try {
       setLoading(true);
       await deleteSignature(Number(id));
-      await loadSignatures(); // Refresh the list after deletion
+      await loadSignatures();
     } catch (error) {
       console.error('Failed to delete signature:', error);
     } finally {

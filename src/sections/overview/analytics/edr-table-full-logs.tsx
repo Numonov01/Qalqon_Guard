@@ -13,6 +13,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fDateTime } from 'src/utils/format-time';
 
+import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
@@ -33,18 +34,18 @@ export function OrderTableRow({ row }: Props) {
 
         <TableCell>{fDateTime(row.created_at)}</TableCell>
 
-        {/* <TableCell>
+        <TableCell>
           <Label
             variant="soft"
             color={
-              (row.device.is_active === true && 'warning') ||
-              (row.device.is_active === false && 'secondary') ||
+              (row.device.is_active === true && 'success') ||
+              (row.device.is_active === false && 'warning') ||
               'default'
             }
           >
             {row.device.is_active ? 'Active' : 'Inactive'}
           </Label>
-        </TableCell> */}
+        </TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton

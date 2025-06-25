@@ -1,10 +1,11 @@
+// src/sections/overview/file/view/overview-file-view.tsx
 import type { EdrLogs } from 'src/types/device';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Box, Card, Table, TableBody } from '@mui/material';
 
-import { useEdrLogs } from 'src/service/edr-logs';
+import { fetchEdrLogsList } from 'src/service/devices';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Scrollbar } from 'src/components/scrollbar';
@@ -30,18 +31,38 @@ const TABLE_HEAD = [
 ];
 
 export default function OverviewFileView() {
-  const { tableData } = useEdrLogs();
+  const [edrLogs, setEdrLogs] = useState<EdrLogs[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+  const table = useTable({
+    defaultOrderBy: 'orderNumber',
+    defaultRowsPerPage: 10,
+  });
   const [filterName, setFilterName] = useState('');
 
+  useEffect(() => {
+    const loadEdrLogs = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchEdrLogsList();
+        setEdrLogs(data.results || []);
+      } catch (error) {
+        console.error('Failed to fetch edr logs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEdrLogs();
+  }, []);
+
   const dataFiltered = applyFilter({
-    inputData: tableData,
+    inputData: edrLogs,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
 
-  const notFound = !dataFiltered.length;
+  const notFound = !dataFiltered.length && !loading;
 
   return (
     <DashboardContent maxWidth="xl">
@@ -77,7 +98,7 @@ export default function OverviewFileView() {
                   emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
 
-                <TableNoData notFound={notFound} />
+                {notFound && <TableNoData notFound={notFound} />}
               </TableBody>
             </Table>
           </Scrollbar>
@@ -117,10 +138,10 @@ function applyFilter({
 
   if (filterName) {
     data = data.filter(
-      (order) =>
-        order.action.toLowerCase().includes(filterName.toLowerCase()) ||
-        order.direction.toLowerCase().includes(filterName.toLowerCase()) ||
-        (order.device?.name.toLowerCase().includes(filterName.toLowerCase()) ?? false)
+      (log) =>
+        log.action.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.direction.toLowerCase().includes(filterName.toLowerCase()) ||
+        (log.device?.name.toLowerCase().includes(filterName.toLowerCase()) ?? false)
     );
   }
 

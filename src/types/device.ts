@@ -23,6 +23,13 @@ export interface EdrInfo {
   devices_count: number;
 }
 
+export interface EdrLogsList {
+  count: number;
+  next: null | string;
+  previous: null | string;
+  results: EdrLogs[];
+}
+
 export interface EdrLogs {
   id: number;
   log_type: string;

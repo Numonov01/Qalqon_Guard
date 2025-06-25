@@ -51,12 +51,15 @@ const TABLE_HEAD = [
 export default function OverviewAppView() {
   const dense = useBoolean(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
   const [deviceFilter, setDeviceFilter] = useState('all');
   const { tableData, devices } = useEdrLogs();
 
-  const table = useTable({ defaultOrderBy: 'orderNumber' });
+  const table = useTable({
+    defaultOrderBy: 'orderNumber',
+    defaultRowsPerPage: 10,
+  });
   const [filterName, setFilterName] = useState('');
 
   const dataFiltered = applyFilter({

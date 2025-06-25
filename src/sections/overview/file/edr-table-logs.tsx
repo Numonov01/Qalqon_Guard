@@ -62,28 +62,13 @@ export function OrderTableRow({ row }: Props) {
 
       <TableRow>
         <TableCell sx={{ p: 0, border: 'none' }} colSpan={6}>
-          <Collapse
-            in={collapse.value}
-            timeout="auto"
-            unmountOnExit
-            sx={{ bgcolor: 'background.neutral' }}
-          >
+          <Collapse in={collapse.value} timeout="auto" unmountOnExit>
             <Paper sx={{ m: 1.5 }}>
               {row.device && (
-                <Stack
-                  key={row.device.id}
-                  direction="row"
-                  alignItems="center"
-                  sx={{
-                    p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
-                    '&:not(:last-of-type)': {
-                      borderBottom: (theme) => `solid 2px ${theme.vars.palette.background.neutral}`,
-                    },
-                  }}
-                >
+                <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
                   <ListItemText
-                    primary={row.device.name}
-                    secondary={row.device.bios_uuid}
+                    primary={row.device.name || 'N/A'}
+                    secondary={row.device.bios_uuid || 'N/A'}
                     primaryTypographyProps={{ typography: 'body2' }}
                     secondaryTypographyProps={{
                       component: 'span',
@@ -91,39 +76,28 @@ export function OrderTableRow({ row }: Props) {
                       mt: 0.5,
                     }}
                   />
-                  {row.device.ip_addres}
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Box>{row.device.ip_addres || 'N/A'}</Box>
                   <Box sx={{ width: 210, textAlign: 'right' }}>
-                    {fDateTime(row.device.created_at)}
+                    {row.device.created_at ? fDateTime(row.device.created_at) : 'N/A'}
                   </Box>
                 </Stack>
               )}
             </Paper>
 
             <Paper sx={{ m: 1.5 }}>
-              {row.device && (
-                <Stack
-                  key={row.device.id}
-                  direction="row"
-                  alignItems="center"
-                  sx={{
-                    p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
-                    '&:not(:last-of-type)': {
-                      borderBottom: (theme) => `solid 2px ${theme.vars.palette.background.neutral}`,
-                    },
+              <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
+                <ListItemText
+                  primary="Full info"
+                  secondary={row.full_info || 'No additional information'}
+                  primaryTypographyProps={{ typography: 'body2' }}
+                  secondaryTypographyProps={{
+                    component: 'span',
+                    color: 'text.disabled',
+                    mt: 0.5,
                   }}
-                >
-                  <ListItemText
-                    primary="Full info"
-                    secondary={row.full_info}
-                    primaryTypographyProps={{ typography: 'body2' }}
-                    secondaryTypographyProps={{
-                      component: 'span',
-                      color: 'text.disabled',
-                      mt: 0.5,
-                    }}
-                  />
-                </Stack>
-              )}
+                />
+              </Stack>
             </Paper>
           </Collapse>
         </TableCell>

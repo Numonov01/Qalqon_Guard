@@ -50,7 +50,7 @@ export const navData = [
     subheader: 'Overview',
     items: [
       { title: 'Zararli fayllar', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Edr loglar', path: paths.dashboard.general.analytics, icon: ICONS.blog },
+      { title: 'Edr to`liq loglar', path: paths.dashboard.general.analytics, icon: ICONS.blog },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
       // { title: 'Course', path: paths.dashboard.general.course, icon: ICONS.course },
     ],

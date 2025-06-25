@@ -1,7 +1,7 @@
-export interface DownloadResponse {
+export interface FullLogsResponse {
   count: number;
-  next: null;
-  previous: null;
+  next: null | string;
+  previous: null | string;
   results: FullLogs[];
 }
 

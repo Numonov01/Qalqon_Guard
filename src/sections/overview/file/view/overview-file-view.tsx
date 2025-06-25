@@ -34,27 +34,32 @@ export default function OverviewFileView() {
   const [edrLogs, setEdrLogs] = useState<EdrLogs[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [rowsPerPage] = useState(10);
+
   const table = useTable({
     defaultOrderBy: 'orderNumber',
     defaultRowsPerPage: 10,
   });
+
   const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
     const loadEdrLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchEdrLogsList();
+        const data = await fetchEdrLogsList(page);
         setEdrLogs(data.results || []);
+        setTotalCount(data.count || 0);
       } catch (error) {
         console.error('Failed to fetch edr logs:', error);
       } finally {
         setLoading(false);
       }
     };
-
     loadEdrLogs();
-  }, []);
+  }, [page]);
 
   const dataFiltered = applyFilter({
     inputData: edrLogs,
@@ -63,6 +68,10 @@ export default function OverviewFileView() {
   });
 
   const notFound = !dataFiltered.length && !loading;
+
+  const handlePageChange = (_: unknown, newPage: number) => {
+    setPage(newPage + 1);
+  };
 
   return (
     <DashboardContent maxWidth="xl">
@@ -84,14 +93,9 @@ export default function OverviewFileView() {
               />
 
               <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row) => (
-                    <OrderTableRow key={row.id} row={row} />
-                  ))}
+                {dataFiltered.map((row) => (
+                  <OrderTableRow key={row.id} row={row} />
+                ))}
 
                 <TableEmptyRows
                   height={table.dense ? 56 : 56 + 20}
@@ -105,11 +109,11 @@ export default function OverviewFileView() {
         </Box>
 
         <TablePaginationCustom
-          page={table.page}
+          page={page - 1}
           dense={table.dense}
-          count={dataFiltered.length}
-          rowsPerPage={table.rowsPerPage}
-          onPageChange={table.onChangePage}
+          count={totalCount}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handlePageChange}
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
@@ -141,7 +145,7 @@ function applyFilter({
       (log) =>
         log.action.toLowerCase().includes(filterName.toLowerCase()) ||
         log.direction.toLowerCase().includes(filterName.toLowerCase()) ||
-        (log.device?.name.toLowerCase().includes(filterName.toLowerCase()) ?? false)
+        log.device?.name?.toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

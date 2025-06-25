@@ -1,3 +1,4 @@
+// OverviewAnalyticsView.tsx
 import type { FullLogs } from 'src/types/full-logs';
 
 import { useState } from 'react';
@@ -31,12 +32,8 @@ const TABLE_HEAD = [
 ];
 
 export default function OverviewAnalyticsView() {
-  const { tableData } = useFullLogs();
-
-  const table = useTable({
-    defaultOrderBy: 'orderNumber',
-    defaultRowsPerPage: 10,
-  });
+  const { tableData, page, setPage, count } = useFullLogs();
+  const table = useTable({ defaultRowsPerPage: 10, defaultOrderBy: 'id' });
   const [filterName, setFilterName] = useState('');
 
   const dataFiltered = applyFilter({
@@ -44,7 +41,6 @@ export default function OverviewAnalyticsView() {
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
-
   const notFound = !dataFiltered.length;
 
   return (
@@ -65,7 +61,6 @@ export default function OverviewAnalyticsView() {
                 rowCount={dataFiltered.length}
                 onSort={table.onSort}
               />
-
               <TableBody>
                 {dataFiltered
                   .slice(
@@ -77,10 +72,9 @@ export default function OverviewAnalyticsView() {
                   ))}
 
                 <TableEmptyRows
-                  height={table.dense ? 56 : 56 + 20}
+                  height={table.dense ? 56 : 76}
                   emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
-
                 <TableNoData notFound={notFound} />
               </TableBody>
             </Table>
@@ -88,11 +82,11 @@ export default function OverviewAnalyticsView() {
         </Box>
 
         <TablePaginationCustom
-          page={table.page}
+          page={page - 1} // MUI 0-based index
           dense={table.dense}
-          count={dataFiltered.length}
+          count={count}
           rowsPerPage={table.rowsPerPage}
-          onPageChange={table.onChangePage}
+          onPageChange={(_, newPage) => setPage(newPage + 1)}
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
@@ -100,6 +94,7 @@ export default function OverviewAnalyticsView() {
   );
 }
 
+// applyFilter helper
 function applyFilter({
   inputData,
   comparator,
@@ -109,21 +104,19 @@ function applyFilter({
   comparator: (a: any, b: any) => number;
   filterName: string;
 }) {
-  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
-
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  const stabilizedThis = inputData
+    .map((el, index) => [el, index] as const)
+    .sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      return order !== 0 ? order : a[1] - b[1];
+    });
 
   let data = stabilizedThis.map((el) => el[0]);
-
   if (filterName) {
     data = data.filter(
-      (order) =>
-        order.full_data.toLowerCase().includes(filterName.toLowerCase()) ||
-        order.device.name.toLowerCase().includes(filterName.toLowerCase())
+      (log) =>
+        log.full_data.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.device.name.toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

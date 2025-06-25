@@ -50,17 +50,23 @@ const TABLE_HEAD = [
 
 export default function OverviewAppView() {
   const dense = useBoolean(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [page, setPage] = useState({ user: 0, device: 0 });
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [filterName, setFilterName] = useState('');
   const [deviceFilter, setDeviceFilter] = useState('all');
-  const { tableData, devices } = useEdrLogs();
+  const { tableData, devices, count } = useEdrLogs(
+    page.device,
+    rowsPerPage,
+    filterName,
+    deviceFilter
+  );
 
   const table = useTable({
     defaultOrderBy: 'orderNumber',
     defaultRowsPerPage: 10,
   });
-  const [filterName, setFilterName] = useState('');
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -77,12 +83,12 @@ export default function OverviewAppView() {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    setPage(0);
+    setPage({ ...page, user: 0, device: 0 });
   };
 
   const handleDeviceFilterChange = (device: string) => {
     setDeviceFilter(device);
-    setPage(0);
+    setPage({ ...page, device: 0 });
   };
 
   return (
@@ -126,12 +132,12 @@ export default function OverviewAppView() {
 
         <UserTable
           dense={dense.value}
-          page={page}
+          page={page.user}
           rowsPerPage={rowsPerPage}
-          onPageChange={(newPage) => setPage(newPage)}
+          onPageChange={(newPage) => setPage({ ...page, user: newPage })}
           onRowsPerPageChange={(newRowsPerPage) => {
             setRowsPerPage(newRowsPerPage);
-            setPage(0);
+            setPage({ ...page, user: 0, device: 0 });
           }}
         />
       </Card>
@@ -179,12 +185,15 @@ export default function OverviewAppView() {
         </Box>
 
         <TablePaginationCustom
-          page={table.page}
-          dense={table.dense}
-          count={dataFiltered.length}
-          rowsPerPage={table.rowsPerPage}
-          onPageChange={table.onChangePage}
-          onRowsPerPageChange={table.onChangeRowsPerPage}
+          page={page.device}
+          dense={false}
+          count={count}
+          rowsPerPage={rowsPerPage}
+          onPageChange={(_, newPage) => setPage({ ...page, device: newPage })}
+          onRowsPerPageChange={(e) => {
+            setRowsPerPage(parseInt(e.target.value, 10));
+            setPage({ ...page, user: 0, device: 0 });
+          }}
         />
       </Card>
 

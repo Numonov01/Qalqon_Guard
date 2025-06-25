@@ -1,6 +1,6 @@
-import type { FullLogs, EdrDevice } from 'src/types/full-logs';
+import type { FullLogs, EdrDevice, FullLogsResponse } from 'src/types/full-logs';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { fetchFullLogsList } from './full-logs';
 
@@ -8,6 +8,10 @@ export function useFullLogs() {
   const [tableData, setTableData] = useState<FullLogs[]>([]);
   const [devices, setDevices] = useState<EdrDevice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const [nextUrl, setNextUrl] = useState<string | null>(null);
+  const [previousUrl, setPreviousUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const wsUrl = `${import.meta.env.VITE_WS_URL}ws/edr-full-logs/`;
@@ -39,19 +43,20 @@ export function useFullLogs() {
     return () => ws.close();
   }, []);
 
-  useEffect(() => {
-    const loadLogs = async () => {
+  const loadLogs = useCallback(
+    async (pageNum = page) => {
+      setLoading(true);
       try {
-        const response = await fetchFullLogsList();
-        const data: FullLogs[] = Array.isArray((response as any).results)
-          ? (response as any).results
-          : [response as FullLogs];
+        const response: FullLogsResponse = await fetchFullLogsList(pageNum);
 
-        setTableData(data);
+        setTableData(response.results || []);
+        setCount(response.count);
+        setNextUrl(response.next);
+        setPreviousUrl(response.previous);
 
         const uniqueDevices: EdrDevice[] = [];
         const seen = new Set<number>();
-        data.forEach((log) => {
+        response.results.forEach((log) => {
           if (log.device && !seen.has(log.device.id)) {
             uniqueDevices.push(log.device);
             seen.add(log.device.id);
@@ -63,10 +68,22 @@ export function useFullLogs() {
       } finally {
         setLoading(false);
       }
-    };
+    },
+    [page]
+  );
 
+  useEffect(() => {
     loadLogs();
-  }, []);
+  }, [loadLogs]);
 
-  return { tableData, devices, loading };
+  return {
+    tableData,
+    devices,
+    loading,
+    page,
+    count,
+    nextUrl,
+    previousUrl,
+    setPage,
+  };
 }

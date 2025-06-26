@@ -62,6 +62,11 @@ export const navData = [
         path: paths.dashboard.general.detect,
         icon: ICONS.course,
       },
+      {
+        title: 'Suspicious scripts',
+        path: paths.dashboard.general.suspicious,
+        icon: ICONS.chat,
+      },
     ],
   },
   /**

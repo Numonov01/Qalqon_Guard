@@ -16,6 +16,7 @@ const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics')
 const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 const OverviewPrivilegePage = lazy(() => import('src/pages/dashboard/privilege'));
 const OverviewStackDetectPage = lazy(() => import('src/pages/dashboard/stack-detect'));
+const OverviewSuspiciousScriptsPage = lazy(() => import('src/pages/dashboard/suspicious-scripts'));
 // User
 const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
 const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
@@ -47,6 +48,7 @@ export const dashboardRoutes = [
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'privilege', element: <OverviewPrivilegePage /> },
       { path: 'detect', element: <OverviewStackDetectPage /> },
+      { path: 'suspicious', element: <OverviewSuspiciousScriptsPage /> },
       {
         path: 'user',
         children: [

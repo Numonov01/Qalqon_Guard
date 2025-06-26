@@ -17,6 +17,8 @@ const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 const OverviewPrivilegePage = lazy(() => import('src/pages/dashboard/privilege'));
 const OverviewStackDetectPage = lazy(() => import('src/pages/dashboard/stack-detect'));
 const OverviewSuspiciousScriptsPage = lazy(() => import('src/pages/dashboard/suspicious-scripts'));
+const OverviewSuspiciousPage = lazy(() => import('src/pages/dashboard/suspicious'));
+const OverviewDriverLoadPage = lazy(() => import('src/pages/dashboard/driver-load'));
 // User
 const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
 const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
@@ -48,7 +50,9 @@ export const dashboardRoutes = [
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'privilege', element: <OverviewPrivilegePage /> },
       { path: 'detect', element: <OverviewStackDetectPage /> },
-      { path: 'suspicious', element: <OverviewSuspiciousScriptsPage /> },
+      { path: 'suspiciousscripts', element: <OverviewSuspiciousScriptsPage /> },
+      { path: 'suspicious', element: <OverviewSuspiciousPage /> },
+      { path: 'driver', element: <OverviewDriverLoadPage /> },
       {
         path: 'user',
         children: [

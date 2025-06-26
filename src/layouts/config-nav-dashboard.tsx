@@ -51,7 +51,7 @@ export const navData = [
     items: [
       { title: 'Zararli fayllar', path: paths.dashboard.root, icon: ICONS.dashboard },
       { title: "Edr to'liq loglar", path: paths.dashboard.general.analytics, icon: ICONS.blog },
-      { title: 'Edr loglar', path: paths.dashboard.general.file, icon: ICONS.file },
+      { title: 'Edr loglar', path: paths.dashboard.general.file, icon: ICONS.external },
       {
         title: 'Imtiyozni oshirish',
         path: paths.dashboard.general.privilege,
@@ -64,8 +64,18 @@ export const navData = [
       },
       {
         title: 'Shubhali skriptlar',
-        path: paths.dashboard.general.suspicious,
+        path: paths.dashboard.general.suspiciousscripts,
         icon: ICONS.chat,
+      },
+      {
+        title: 'Shubhali fayllar',
+        path: paths.dashboard.general.suspicious,
+        icon: ICONS.file,
+      },
+      {
+        title: 'Driver load',
+        path: paths.dashboard.general.driver,
+        icon: ICONS.order,
       },
     ],
   },

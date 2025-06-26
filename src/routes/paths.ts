@@ -105,7 +105,9 @@ export const paths = {
       file: `${ROOTS.DASHBOARD}/file`,
       privilege: `${ROOTS.DASHBOARD}/privilege`,
       detect: `${ROOTS.DASHBOARD}/detect`,
+      suspiciousscripts: `${ROOTS.DASHBOARD}/suspiciousscripts`,
       suspicious: `${ROOTS.DASHBOARD}/suspicious`,
+      driver: `${ROOTS.DASHBOARD}/driver`,
     },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,

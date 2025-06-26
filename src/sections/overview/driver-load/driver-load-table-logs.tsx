@@ -1,8 +1,5 @@
-import type { EdrLogs } from 'src/types/device';
+import type { DriverLoad } from 'src/types/driver-load';
 
-import React from 'react';
-
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';
@@ -13,13 +10,12 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { fDateTime } from 'src/utils/format-time';
+import { fTime, fDate } from 'src/utils/format-time';
 
-import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
-  row: EdrLogs;
+  row: DriverLoad;
 };
 
 export function OrderTableRow({ row }: Props) {
@@ -28,25 +24,23 @@ export function OrderTableRow({ row }: Props) {
   return (
     <>
       <TableRow hover>
-        <TableCell>
-          <Box component="span">{row.id}</Box>
-        </TableCell>
+        <TableCell>{row.device_info.name}</TableCell>
 
-        <TableCell>{row.direction}</TableCell>
+        <TableCell>{row.device_info.bios_uuid}</TableCell>
 
-        <TableCell>{row.action}</TableCell>
+        <TableCell>{row.device_info.ip_address}</TableCell>
 
         <TableCell>
-          <Label
-            variant="soft"
-            color={
-              (row.log_type === 'WARNING' && 'warning') ||
-              (row.log_type === 'ERROR' && 'secondary') ||
-              'default'
-            }
-          >
-            {row.log_type}
-          </Label>
+          <ListItemText
+            primary={fDate(row.created_at)}
+            secondary={fTime(row.created_at)}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              component: 'span',
+              color: 'text.disabled',
+              mt: 0.5,
+            }}
+          />
         </TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
@@ -69,32 +63,10 @@ export function OrderTableRow({ row }: Props) {
             sx={{ bgcolor: 'background.neutral' }}
           >
             <Paper sx={{ m: 1.5 }}>
-              {row.device && (
-                <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
-                  <ListItemText
-                    primary={row.device.name || 'N/A'}
-                    secondary={row.device.bios_uuid || 'N/A'}
-                    primaryTypographyProps={{ typography: 'body2' }}
-                    secondaryTypographyProps={{
-                      component: 'span',
-                      color: 'text.disabled',
-                      mt: 0.5,
-                    }}
-                  />
-                  <Box sx={{ flexGrow: 1 }} />
-                  <Box>{row.device.ip_addres || 'N/A'}</Box>
-                  <Box sx={{ width: 210, textAlign: 'right' }}>
-                    {row.device.created_at ? fDateTime(row.device.created_at) : 'N/A'}
-                  </Box>
-                </Stack>
-              )}
-            </Paper>
-
-            <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
                 <ListItemText
-                  primary="Full info"
-                  secondary={row.full_info}
+                  primary="Full data"
+                  secondary={row.full_data}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{
                     component: 'span',

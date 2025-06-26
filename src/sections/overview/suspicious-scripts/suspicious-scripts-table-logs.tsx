@@ -41,7 +41,7 @@ export function OrderTableRow({ row }: Props) {
 
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.risk_score}</TableCell>
-
+        <TableCell>{row.pid}</TableCell>
         <TableCell>
           <ListItemText
             primary={fDate(row.created_at)}
@@ -91,6 +91,21 @@ export function OrderTableRow({ row }: Props) {
                     ))}
                   </Stack>
                 </Box>
+              </Stack>
+            </Paper>
+
+            <Paper sx={{ m: 1.5 }}>
+              <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
+                <ListItemText
+                  primary="Cwd"
+                  secondary={row.cwd}
+                  primaryTypographyProps={{ typography: 'body2' }}
+                  secondaryTypographyProps={{
+                    component: 'span',
+                    color: 'text.disabled',
+                    mt: 0.5,
+                  }}
+                />
               </Stack>
             </Paper>
           </Collapse>

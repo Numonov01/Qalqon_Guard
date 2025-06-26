@@ -1,6 +1,4 @@
-import type { EdrLogs } from 'src/types/device';
-
-import React from 'react';
+import type { Suspicious } from 'src/types/suspicious';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -13,13 +11,13 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { fDateTime } from 'src/utils/format-time';
+import { fTime, fDate } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
-  row: EdrLogs;
+  row: Suspicious;
 };
 
 export function OrderTableRow({ row }: Props) {
@@ -29,24 +27,45 @@ export function OrderTableRow({ row }: Props) {
     <>
       <TableRow hover>
         <TableCell>
-          <Box component="span">{row.id}</Box>
+          <ListItemText
+            primary={row.device_info.name}
+            secondary={row.device_info.bios_uuid}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              component: 'span',
+              color: 'text.disabled',
+              mt: 0.5,
+            }}
+          />
         </TableCell>
 
-        <TableCell>{row.direction}</TableCell>
-
-        <TableCell>{row.action}</TableCell>
+        <TableCell>{row.file_name}</TableCell>
+        <TableCell>{row.risk_score}</TableCell>
 
         <TableCell>
           <Label
             variant="soft"
             color={
-              (row.log_type === 'WARNING' && 'warning') ||
-              (row.log_type === 'ERROR' && 'secondary') ||
+              (row.is_quarantined === true && 'success') ||
+              (row.is_quarantined === false && 'error') ||
               'default'
             }
           >
-            {row.log_type}
+            {row.is_quarantined ? 'Yes' : 'No'}
           </Label>
+        </TableCell>
+
+        <TableCell>
+          <ListItemText
+            primary={fDate(row.created_at)}
+            secondary={fTime(row.created_at)}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              component: 'span',
+              color: 'text.disabled',
+              mt: 0.5,
+            }}
+          />
         </TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
@@ -69,11 +88,21 @@ export function OrderTableRow({ row }: Props) {
             sx={{ bgcolor: 'background.neutral' }}
           >
             <Paper sx={{ m: 1.5 }}>
-              {row.device && (
-                <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
+              <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
+                <ListItemText
+                  primary={row.file_path}
+                  secondary={row.t}
+                  primaryTypographyProps={{ typography: 'body2' }}
+                  secondaryTypographyProps={{
+                    component: 'span',
+                    color: 'text.disabled',
+                    mt: 0.5,
+                  }}
+                />
+                <Box sx={{ width: 210, textAlign: 'right' }}>
                   <ListItemText
-                    primary={row.device.name || 'N/A'}
-                    secondary={row.device.bios_uuid || 'N/A'}
+                    primary={fDate(row.detected_time)}
+                    secondary={fTime(row.detected_time)}
                     primaryTypographyProps={{ typography: 'body2' }}
                     secondaryTypographyProps={{
                       component: 'span',
@@ -81,20 +110,15 @@ export function OrderTableRow({ row }: Props) {
                       mt: 0.5,
                     }}
                   />
-                  <Box sx={{ flexGrow: 1 }} />
-                  <Box>{row.device.ip_addres || 'N/A'}</Box>
-                  <Box sx={{ width: 210, textAlign: 'right' }}>
-                    {row.device.created_at ? fDateTime(row.device.created_at) : 'N/A'}
-                  </Box>
-                </Stack>
-              )}
+                </Box>
+              </Stack>
             </Paper>
 
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
                 <ListItemText
-                  primary="Full info"
-                  secondary={row.full_info}
+                  primary="Reason"
+                  secondary={row.reason}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{
                     component: 'span',

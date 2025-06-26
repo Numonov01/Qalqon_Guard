@@ -1,4 +1,4 @@
-import type { SuspiciousScripts } from 'src/types/suspicious-scripts';
+import type { Suspicious } from 'src/types/suspicious';
 
 import { useState, useEffect } from 'react';
 
@@ -7,7 +7,7 @@ import { Box, Card, Table, TableBody } from '@mui/material';
 import { paths } from 'src/routes/paths';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { fetchSuspiciousScriptsList } from 'src/service/suspicious-scripts';
+import { fetchSuspiciousFileList } from 'src/service/suspicious';
 
 import { Scrollbar } from 'src/components/scrollbar';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
@@ -21,20 +21,20 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { OrderTableRow } from '../suspicious-scripts-table-logs';
-import { EdrTableToolbar } from '../suspicious-scripts-table-toolbar';
+import { OrderTableRow } from '../suspicious-table-logs';
+import { EdrTableToolbar } from '../suspicious-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Device' },
-  { id: 'name', label: 'Exe name' },
+  { id: 'name', label: 'File name' },
   { id: 'risk_score', label: 'Risk score' },
-  { id: 'pid', label: 'Pid' },
-  { id: 'created_at', label: 'Created date' },
+  { id: 'is_quarantined', label: 'Is quarantined' },
+  { id: 'created_at', label: 'Reated date' },
   { id: '', width: 88 },
 ];
 
-export default function OverviewSuspiciousScriptsView() {
-  const [suspiciousScriptsLogs, setSuspiciousScriptsLogs] = useState<SuspiciousScripts[]>([]);
+export default function OverviewSuspiciousView() {
+  const [suspiciousFileLogs, setSuspiciousFileLogs] = useState<Suspicious[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
@@ -49,11 +49,11 @@ export default function OverviewSuspiciousScriptsView() {
   const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
-    const loadSuspiciousLogs = async () => {
+    const loadSuspiciousFileLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchSuspiciousScriptsList(page);
-        setSuspiciousScriptsLogs(data.results || []);
+        const data = await fetchSuspiciousFileList(page);
+        setSuspiciousFileLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
         console.error('Failed to fetch suspicious logs:', error);
@@ -61,11 +61,11 @@ export default function OverviewSuspiciousScriptsView() {
         setLoading(false);
       }
     };
-    loadSuspiciousLogs();
+    loadSuspiciousFileLogs();
   }, [page]);
 
   const dataFiltered = applyFilter({
-    inputData: suspiciousScriptsLogs,
+    inputData: suspiciousFileLogs,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -79,10 +79,10 @@ export default function OverviewSuspiciousScriptsView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Shubhali skriptlar"
+        heading="Shubhali fayllar"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Shubhali skriptlar', href: paths.dashboard.general.suspiciousscripts },
+          { name: 'Shubhali fayllar', href: paths.dashboard.general.suspicious },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
@@ -138,7 +138,7 @@ function applyFilter({
   comparator,
   filterName,
 }: {
-  inputData: SuspiciousScripts[];
+  inputData: Suspicious[];
   comparator: (a: any, b: any) => number;
   filterName: string;
 }) {
@@ -157,7 +157,7 @@ function applyFilter({
       (log) =>
         log.device_info.name.toLowerCase().includes(filterName.toLowerCase()) ||
         log.device_info.bios_uuid.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.cwd.toLowerCase().includes(filterName.toLowerCase())
+        log.reason.toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

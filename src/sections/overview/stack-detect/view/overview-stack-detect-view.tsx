@@ -21,8 +21,8 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { OrderTableRow } from '../privilege-table-logs';
-import { EdrTableToolbar } from '../privilege-table-toolbar';
+import { OrderTableRow } from '../stack-detect-table-logs';
+import { EdrTableToolbar } from '../stack-detect-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Device' },

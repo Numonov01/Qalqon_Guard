@@ -63,7 +63,7 @@ export const navData = [
         icon: ICONS.course,
       },
       {
-        title: 'Suspicious scripts',
+        title: 'Shubhali skriptlar',
         path: paths.dashboard.general.suspicious,
         icon: ICONS.chat,
       },

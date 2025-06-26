@@ -1,4 +1,4 @@
-import type { StackDetection } from 'src/types/stack-detect';
+import type { SuspiciousScripts } from 'src/types/suspicious-scripts';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -14,11 +14,10 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fTime, fDate } from 'src/utils/format-time';
 
-import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
-  row: StackDetection;
+  row: SuspiciousScripts;
 };
 
 export function OrderTableRow({ row }: Props) {
@@ -40,25 +39,13 @@ export function OrderTableRow({ row }: Props) {
           />
         </TableCell>
 
-        <TableCell>{row.event_type}</TableCell>
-        <TableCell>
-          <Label
-            variant="soft"
-            color={
-              (row.severity === 'low' && 'success') ||
-              (row.severity === 'medium' && 'warning') ||
-              (row.severity === 'high' && 'error') ||
-              'default'
-            }
-          >
-            {row.severity}
-          </Label>
-        </TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.risk_score}</TableCell>
 
         <TableCell>
           <ListItemText
-            primary={fDate(row.timestamp)}
-            secondary={fTime(row.timestamp)}
+            primary={fDate(row.created_at)}
+            secondary={fTime(row.created_at)}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               component: 'span',
@@ -88,61 +75,19 @@ export function OrderTableRow({ row }: Props) {
             sx={{ bgcolor: 'background.neutral' }}
           >
             <Paper sx={{ m: 1.5 }}>
-              <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
-                <ListItemText
-                  primary={row.tactics}
-                  secondary={row.technique_descriptions}
-                  primaryTypographyProps={{ typography: 'body2' }}
-                  secondaryTypographyProps={{
-                    component: 'span',
-                    color: 'text.disabled',
-                    mt: 0.5,
-                  }}
-                />
-                <Box sx={{ flexGrow: 1 }} />
-                <Box>{row.risk_assessment}</Box>
-                <Box sx={{ width: 210, textAlign: 'right' }}>
-                  <ListItemText
-                    primary={fDate(row.created_at)}
-                    secondary={fTime(row.created_at)}
-                    primaryTypographyProps={{ typography: 'body2' }}
-                    secondaryTypographyProps={{
-                      component: 'span',
-                      color: 'text.disabled',
-                      mt: 0.5,
-                    }}
-                  />
-                </Box>
-              </Stack>
-            </Paper>
-
-            <Paper sx={{ m: 1.5 }}>
               <Stack spacing={2} sx={{ p: 2 }}>
                 <Box>
                   <Typography variant="subtitle2" gutterBottom>
-                    Mitre attack mapping
+                    Mitre attack
                   </Typography>
                   <Stack spacing={1}>
-                    {Object.entries(row.mitre_attack_mapping).map(([key, value]) => (
+                    {Object.entries(row.mitre).map(([key, value]) => (
                       <Box key={key} sx={{ display: 'flex', gap: 1 }}>
                         <Typography variant="body2" fontWeight="bold">
                           {key}:
                         </Typography>
                         <Typography variant="body2">{value}</Typography>
                       </Box>
-                    ))}
-                  </Stack>
-                </Box>
-
-                <Box>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Indicators
-                  </Typography>
-                  <Stack direction="row" spacing={1} flexWrap="wrap">
-                    {row.indicators.map((indicator) => (
-                      <Label key={indicator} variant="soft" color="info">
-                        {indicator}
-                      </Label>
                     ))}
                   </Stack>
                 </Box>

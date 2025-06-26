@@ -1,2 +1,2 @@
-export * from '../privilege-table-logs';
-export * from '../privilege-table-toolbar';
+export * from '../stack-detect-table-logs';
+export * from '../stack-detect-table-toolbar';

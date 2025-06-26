@@ -1,4 +1,4 @@
-import type { StackDetection } from 'src/types/stack-detect';
+import type { SuspiciousScripts } from 'src/types/suspicious-scripts';
 
 import { useState, useEffect } from 'react';
 
@@ -7,7 +7,7 @@ import { Box, Card, Table, TableBody } from '@mui/material';
 import { paths } from 'src/routes/paths';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { fetchStackDetectionList } from 'src/service/stack-detect';
+import { fetchSuspiciousScriptsList } from 'src/service/suspicious-scripts';
 
 import { Scrollbar } from 'src/components/scrollbar';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
@@ -21,19 +21,19 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { OrderTableRow } from '../privilege-table-logs';
-import { EdrTableToolbar } from '../privilege-table-toolbar';
+import { OrderTableRow } from '../suspicious-scripts-table-logs';
+import { EdrTableToolbar } from '../suspicious-scripts-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Device' },
-  { id: 'event_type', label: 'Event type' },
-  { id: 'severity', label: 'Severity' },
-  { id: 'timestamp', label: 'Time stamp' },
+  { id: 'name', label: 'Exe name' },
+  { id: 'risk_score', label: 'Risk score' },
+  { id: 'created_at', label: 'Created date' },
   { id: '', width: 88 },
 ];
 
 export default function OverviewSuspiciousScriptsView() {
-  const [stackDetectionLogs, setStackDetectionLogs] = useState<StackDetection[]>([]);
+  const [suspiciousScriptsLogs, setSuspiciousScriptsLogs] = useState<SuspiciousScripts[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
@@ -48,23 +48,23 @@ export default function OverviewSuspiciousScriptsView() {
   const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
-    const loadDetectionLogs = async () => {
+    const loadSuspiciousLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchStackDetectionList(page);
-        setStackDetectionLogs(data.results || []);
+        const data = await fetchSuspiciousScriptsList(page);
+        setSuspiciousScriptsLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
-        console.error('Failed to fetch stack detection logs:', error);
+        console.error('Failed to fetch suspicious logs:', error);
       } finally {
         setLoading(false);
       }
     };
-    loadDetectionLogs();
+    loadSuspiciousLogs();
   }, [page]);
 
   const dataFiltered = applyFilter({
-    inputData: stackDetectionLogs,
+    inputData: suspiciousScriptsLogs,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -78,10 +78,10 @@ export default function OverviewSuspiciousScriptsView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Stack detect"
+        heading="Shubhali skriptlar"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Stack detect', href: paths.dashboard.general.detect },
+          { name: 'Shubhali skriptlar', href: paths.dashboard.general.suspicious },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
@@ -137,7 +137,7 @@ function applyFilter({
   comparator,
   filterName,
 }: {
-  inputData: StackDetection[];
+  inputData: SuspiciousScripts[];
   comparator: (a: any, b: any) => number;
   filterName: string;
 }) {
@@ -155,8 +155,8 @@ function applyFilter({
     data = data.filter(
       (log) =>
         log.device_info.name.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.event_type.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.severity.toLowerCase().includes(filterName.toLowerCase())
+        log.device_info.bios_uuid.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.cwd.toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

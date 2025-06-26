@@ -14,7 +14,8 @@ import { AuthGuard } from 'src/auth/guard';
 const IndexPage = lazy(() => import('src/pages/dashboard'));
 const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));
 const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
-// const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
+const OverviewPrivilegePage = lazy(() => import('src/pages/dashboard/privilege'));
+const OverviewStackDetectPage = lazy(() => import('src/pages/dashboard/stack-detect'));
 // User
 const UserProfilePage = lazy(() => import('src/pages/dashboard/user/profile'));
 const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
@@ -44,7 +45,8 @@ export const dashboardRoutes = [
 
       { path: 'analytics', element: <OverviewAnalyticsPage /> },
       { path: 'file', element: <OverviewFilePage /> },
-      // { path: 'course', element: <OverviewCoursePage /> },
+      { path: 'privilege', element: <OverviewPrivilegePage /> },
+      { path: 'detect', element: <OverviewStackDetectPage /> },
       {
         path: 'user',
         children: [

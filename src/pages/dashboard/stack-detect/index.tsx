@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { OverviewCourseView } from 'src/sections/overview/course/view';
+import OverviewStackDetectView from 'src/sections/overview/stack-detect/view/overview-stack-detect-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Course | Dashboard - ${CONFIG.site.name}` };
+const metadata = { title: `Stack detect | Dashboard - ${CONFIG.site.name}` };
 
 export default function Page() {
   return (
@@ -15,7 +15,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <OverviewCourseView />
+      <OverviewStackDetectView />
     </>
   );
 }

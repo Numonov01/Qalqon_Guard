@@ -50,9 +50,18 @@ export const navData = [
     subheader: 'Overview',
     items: [
       { title: 'Zararli fayllar', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Edr to`liq loglar', path: paths.dashboard.general.analytics, icon: ICONS.blog },
-      { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
-      // { title: 'Course', path: paths.dashboard.general.course, icon: ICONS.course },
+      { title: "Edr to'liq loglar", path: paths.dashboard.general.analytics, icon: ICONS.blog },
+      { title: 'Edr loglar', path: paths.dashboard.general.file, icon: ICONS.file },
+      {
+        title: 'Imtiyozni oshirish',
+        path: paths.dashboard.general.privilege,
+        icon: ICONS.analytics,
+      },
+      {
+        title: 'Stack detect',
+        path: paths.dashboard.general.detect,
+        icon: ICONS.course,
+      },
     ],
   },
   /**

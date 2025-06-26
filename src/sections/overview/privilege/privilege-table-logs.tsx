@@ -1,4 +1,4 @@
-import type { EdrLogs } from 'src/types/device';
+import type { Privilege } from 'src/types/privilege';
 
 import React from 'react';
 
@@ -13,13 +13,12 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { fDateTime } from 'src/utils/format-time';
+import { fTime, fDate } from 'src/utils/format-time';
 
-import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
-  row: EdrLogs;
+  row: Privilege;
 };
 
 export function OrderTableRow({ row }: Props) {
@@ -29,25 +28,22 @@ export function OrderTableRow({ row }: Props) {
     <>
       <TableRow hover>
         <TableCell>
-          <Box component="span">{row.id}</Box>
+          <ListItemText
+            primary={row.device.name}
+            secondary={row.device.bios_uuid}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              component: 'span',
+              color: 'text.disabled',
+              mt: 0.5,
+            }}
+          />
         </TableCell>
 
-        <TableCell>{row.direction}</TableCell>
+        <TableCell>{row.device.ip_addres}</TableCell>
+        <TableCell>{row.device.risk_ball}</TableCell>
 
-        <TableCell>{row.action}</TableCell>
-
-        <TableCell>
-          <Label
-            variant="soft"
-            color={
-              (row.log_type === 'WARNING' && 'warning') ||
-              (row.log_type === 'ERROR' && 'secondary') ||
-              'default'
-            }
-          >
-            {row.log_type}
-          </Label>
-        </TableCell>
+        <TableCell>{row.action_taken}</TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton
@@ -72,8 +68,8 @@ export function OrderTableRow({ row }: Props) {
               {row.device && (
                 <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
                   <ListItemText
-                    primary={row.device.name || 'N/A'}
-                    secondary={row.device.bios_uuid || 'N/A'}
+                    primary={row.privileges}
+                    secondary={row.commandline}
                     primaryTypographyProps={{ typography: 'body2' }}
                     secondaryTypographyProps={{
                       component: 'span',
@@ -82,9 +78,19 @@ export function OrderTableRow({ row }: Props) {
                     }}
                   />
                   <Box sx={{ flexGrow: 1 }} />
-                  <Box>{row.device.ip_addres || 'N/A'}</Box>
+                  <Box sx={{ width: 210, textAlign: 'center' }}>{row.pid}</Box>
+                  <Box>{row.parent}</Box>
                   <Box sx={{ width: 210, textAlign: 'right' }}>
-                    {row.device.created_at ? fDateTime(row.device.created_at) : 'N/A'}
+                    <ListItemText
+                      primary={fDate(row.time)}
+                      secondary={fTime(row.time)}
+                      primaryTypographyProps={{ typography: 'body2' }}
+                      secondaryTypographyProps={{
+                        component: 'span',
+                        color: 'text.disabled',
+                        mt: 0.5,
+                      }}
+                    />
                   </Box>
                 </Stack>
               )}
@@ -93,8 +99,8 @@ export function OrderTableRow({ row }: Props) {
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
                 <ListItemText
-                  primary="Full info"
-                  secondary={row.full_info || 'No additional information'}
+                  primary="Detected"
+                  secondary={row.detected || 'No additional information'}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{
                     component: 'span',

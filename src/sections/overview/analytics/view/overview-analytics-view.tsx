@@ -5,10 +5,13 @@ import { useState } from 'react';
 
 import { Box, Card, Table, TableBody } from '@mui/material';
 
+import { paths } from 'src/routes/paths';
+
 import { useFullLogs } from 'src/service/edr-full-logs';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Scrollbar } from 'src/components/scrollbar';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import {
   useTable,
   emptyRows,
@@ -45,7 +48,15 @@ export default function OverviewAnalyticsView() {
 
   return (
     <DashboardContent maxWidth="xl">
-      <Card sx={{ mt: 3 }}>
+      <CustomBreadcrumbs
+        heading="Edr to'liq loglar"
+        links={[
+          { name: 'Dashboard', href: paths.dashboard.root },
+          { name: 'Edr loglar', href: paths.dashboard.general.analytics },
+        ]}
+        sx={{ mb: { xs: 3, md: 5 } }}
+      />
+      <Card>
         <EdrTableToolbar
           filterName={filterName}
           onFilterName={(e) => setFilterName(e.target.value)}
@@ -82,7 +93,7 @@ export default function OverviewAnalyticsView() {
         </Box>
 
         <TablePaginationCustom
-          page={page - 1} // MUI 0-based index
+          page={page - 1}
           dense={table.dense}
           count={count}
           rowsPerPage={table.rowsPerPage}

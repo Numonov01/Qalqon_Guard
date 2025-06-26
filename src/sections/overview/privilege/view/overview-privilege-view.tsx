@@ -1,5 +1,4 @@
-// src/sections/overview/file/view/overview-file-view.tsx
-import type { EdrLogs } from 'src/types/device';
+import type { Privilege } from 'src/types/privilege';
 
 import { useState, useEffect } from 'react';
 
@@ -7,8 +6,8 @@ import { Box, Card, Table, TableBody } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 
-import { fetchEdrLogsList } from 'src/service/devices';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { fetchPrivilegeList } from 'src/service/privilege';
 
 import { Scrollbar } from 'src/components/scrollbar';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
@@ -22,19 +21,19 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { OrderTableRow } from '../edr-table-logs';
-import { EdrTableToolbar } from '../edr-table-toolbar';
+import { OrderTableRow } from '../privilege-table-logs';
+import { EdrTableToolbar } from '../privilege-table-toolbar';
 
 const TABLE_HEAD = [
-  { id: 'id', label: 'Id' },
-  { id: 'direction', label: 'Direction' },
-  { id: 'action', label: 'Action' },
-  { id: 'log_type', label: 'Log type' },
+  { id: 'name', label: 'Name' },
+  { id: 'ip_addres', label: 'Ip_addres' },
+  { id: 'risk_ball', label: 'Risk ball' },
+  { id: 'action_taken', label: 'Action taken' },
   { id: '', width: 88 },
 ];
 
-export default function OverviewFileView() {
-  const [edrLogs, setEdrLogs] = useState<EdrLogs[]>([]);
+export default function OverviewPrivilegeView() {
+  const [privilegeLogs, setPrivilegeLogs] = useState<Privilege[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
@@ -49,23 +48,23 @@ export default function OverviewFileView() {
   const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
-    const loadEdrLogs = async () => {
+    const loadPrivilegeLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchEdrLogsList(page);
-        setEdrLogs(data.results || []);
+        const data = await fetchPrivilegeList(page);
+        setPrivilegeLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
-        console.error('Failed to fetch edr logs:', error);
+        console.error('Failed to fetch privilege logs:', error);
       } finally {
         setLoading(false);
       }
     };
-    loadEdrLogs();
+    loadPrivilegeLogs();
   }, [page]);
 
   const dataFiltered = applyFilter({
-    inputData: edrLogs,
+    inputData: privilegeLogs,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -79,13 +78,14 @@ export default function OverviewFileView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Edr loglar"
+        heading="Imtiyozlarni oshirish"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Edr loglar', href: paths.dashboard.general.file },
+          { name: 'Privilege', href: paths.dashboard.general.privilege },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
+
       <Card>
         <EdrTableToolbar
           filterName={filterName}
@@ -137,7 +137,7 @@ function applyFilter({
   comparator,
   filterName,
 }: {
-  inputData: EdrLogs[];
+  inputData: Privilege[];
   comparator: (a: any, b: any) => number;
   filterName: string;
 }) {
@@ -154,9 +154,9 @@ function applyFilter({
   if (filterName) {
     data = data.filter(
       (log) =>
-        log.action.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.direction.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.device?.name?.toLowerCase().includes(filterName.toLowerCase())
+        log.pid.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.device.name.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.action_taken.toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

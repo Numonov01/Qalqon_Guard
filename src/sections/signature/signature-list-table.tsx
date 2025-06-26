@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import { ListItemText } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,7 +22,7 @@ import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { fDateTime } from 'src/utils/format-time';
+import { fDate, fTime } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -74,8 +75,7 @@ export function SignatureTable({
         <Table size={dense ? 'small' : 'medium'}>
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell sx={{ px: 10 }}>Title</TableCell>
+              <TableCell>Title</TableCell>
               <TableCell>File type</TableCell>
               <TableCell>Sha256</TableCell>
               <TableCell>Md5</TableCell>
@@ -87,13 +87,34 @@ export function SignatureTable({
           <TableBody>
             {signatures.map((signature) => (
               <TableRow key={signature.id} hover>
-                <TableCell>{signature.id}</TableCell>
-                <TableCell sx={{ px: 10 }}>{signature.title}</TableCell>
+                <TableCell>{signature.title}</TableCell>
                 <TableCell>{signature.file_type}</TableCell>
                 <TableCell>{signature.sha256}</TableCell>
                 <TableCell>{signature.md5}</TableCell>
-                <TableCell>{fDateTime(signature.created_at)}</TableCell>
-                <TableCell>{fDateTime(signature.updated_at)}</TableCell>
+                <TableCell>
+                  <ListItemText
+                    primary={fDate(signature.created_at)}
+                    secondary={fTime(signature.created_at)}
+                    primaryTypographyProps={{ typography: 'body2' }}
+                    secondaryTypographyProps={{
+                      component: 'span',
+                      color: 'text.disabled',
+                      mt: 0.5,
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <ListItemText
+                    primary={fDate(signature.updated_at)}
+                    secondary={fTime(signature.updated_at)}
+                    primaryTypographyProps={{ typography: 'body2' }}
+                    secondaryTypographyProps={{
+                      component: 'span',
+                      color: 'text.disabled',
+                      mt: 0.5,
+                    }}
+                  />
+                </TableCell>
 
                 <TableCell align="right">
                   <Stack direction="row" spacing={1} justifyContent="flex-end">

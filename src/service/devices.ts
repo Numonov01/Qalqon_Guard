@@ -8,7 +8,7 @@ const api = axios.create({
 
 export const fetchDeviceList = async (page = 1): Promise<DeviceList> => {
   try {
-    const response = await api.get<DeviceList>(`/malicious_file_detects/devices/?page=${page}`);
+    const response = await api.get(`/malicious_file_detects/devices/?page=${page}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching device list:', error);

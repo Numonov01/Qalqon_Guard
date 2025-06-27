@@ -3,6 +3,7 @@ import type { Suspicious } from 'src/types/suspicious';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import { Tooltip } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
@@ -22,9 +23,16 @@ type Props = {
 export function OrderTableRow({ row }: Props) {
   const collapse = useBoolean();
 
+  const handleToggle = (e: React.MouseEvent) => {
+    if ((e.target as Element).closest('button')) {
+      return;
+    }
+    collapse.onToggle();
+  };
+
   return (
     <>
-      <TableRow hover>
+      <TableRow hover onClick={handleToggle} sx={{ cursor: 'pointer' }}>
         <TableCell>
           <ListItemText
             primary={row.device_info.name}
@@ -38,7 +46,18 @@ export function OrderTableRow({ row }: Props) {
           />
         </TableCell>
 
-        <TableCell>{row.file_name}</TableCell>
+        <TableCell
+          sx={{
+            maxWidth: 300,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <Tooltip title={row.file_name}>
+            <span>{row.file_name}</span>
+          </Tooltip>
+        </TableCell>
         <TableCell>{row.risk_score}</TableCell>
 
         {/* <TableCell>
@@ -70,7 +89,10 @@ export function OrderTableRow({ row }: Props) {
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton
             color={collapse.value ? 'inherit' : 'default'}
-            onClick={collapse.onToggle}
+            onClick={(e) => {
+              e.stopPropagation();
+              collapse.onToggle();
+            }}
             sx={{ ...(collapse.value && { bgcolor: 'action.hover' }) }}
           >
             <Iconify icon="eva:arrow-ios-downward-fill" />

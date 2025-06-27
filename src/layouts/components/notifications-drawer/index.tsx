@@ -8,12 +8,14 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { varHover } from 'src/components/animate';
 import { Scrollbar } from 'src/components/scrollbar';
 
+import { NewMessageToast } from './NewMessageToast';
 import { NotificationItem } from './notification-item';
 import { updateNotification, useWebSocketNotifications } from './ws';
 
 export function NotificationsDrawer() {
   const drawer = useBoolean();
-  const { notifications, setNotifications } = useWebSocketNotifications();
+  const { notifications, setNotifications, newNotification, setNewNotification } =
+    useWebSocketNotifications();
 
   const handleAllow = async (id: number) => {
     try {
@@ -84,6 +86,8 @@ export function NotificationsDrawer() {
           </Box>
         </Scrollbar>
       </Drawer>
+
+      <NewMessageToast open={newNotification} onClose={() => setNewNotification(false)} />
     </>
   );
 }

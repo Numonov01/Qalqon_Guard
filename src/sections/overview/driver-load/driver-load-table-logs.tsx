@@ -21,9 +21,16 @@ type Props = {
 export function OrderTableRow({ row }: Props) {
   const collapse = useBoolean();
 
+  const handleToggle = (e: React.MouseEvent) => {
+    if ((e.target as Element).closest('button')) {
+      return;
+    }
+    collapse.onToggle();
+  };
+
   return (
     <>
-      <TableRow hover>
+      <TableRow hover onClick={handleToggle} sx={{ cursor: 'pointer' }}>
         <TableCell>{row.device_info.name}</TableCell>
 
         <TableCell>{row.device_info.bios_uuid}</TableCell>
@@ -46,7 +53,10 @@ export function OrderTableRow({ row }: Props) {
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton
             color={collapse.value ? 'inherit' : 'default'}
-            onClick={collapse.onToggle}
+            onClick={(e) => {
+              e.stopPropagation();
+              collapse.onToggle();
+            }}
             sx={{ ...(collapse.value && { bgcolor: 'action.hover' }) }}
           >
             <Iconify icon="eva:arrow-ios-downward-fill" />

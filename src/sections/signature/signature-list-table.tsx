@@ -87,10 +87,56 @@ export function SignatureTable({
           <TableBody>
             {signatures.map((signature) => (
               <TableRow key={signature.id} hover>
-                <TableCell>{signature.title}</TableCell>
-                <TableCell>{signature.file_type}</TableCell>
-                <TableCell>{signature.sha256}</TableCell>
-                <TableCell>{signature.md5}</TableCell>
+                <TableCell
+                  sx={{
+                    maxWidth: 200,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  <Tooltip title={signature.title}>
+                    <span>{signature.title}</span>
+                  </Tooltip>
+                </TableCell>
+                <TableCell
+                  sx={{
+                    maxWidth: 200,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  <Tooltip title={signature.file_type}>
+                    <span>{signature.file_type}</span>
+                  </Tooltip>
+                </TableCell>
+
+                <TableCell
+                  sx={{
+                    maxWidth: 200,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  <Tooltip title={signature.sha256}>
+                    <span>{signature.sha256}</span>
+                  </Tooltip>
+                </TableCell>
+
+                <TableCell
+                  sx={{
+                    maxWidth: 200,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  <Tooltip title={signature.md5}>
+                    <span>{signature.md5}</span>
+                  </Tooltip>
+                </TableCell>
                 <TableCell>
                   <ListItemText
                     primary={fDate(signature.created_at)}

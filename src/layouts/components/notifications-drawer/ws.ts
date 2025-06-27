@@ -2,7 +2,7 @@
 import type { WSNotification } from 'src/types/notification';
 
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_QWERT_API,
@@ -27,6 +27,8 @@ export const fetchNotificationList = async (): Promise<WSNotification[]> => {
 
 export function useWebSocketNotifications() {
   const [notifications, setNotifications] = useState<WSNotification[]>([]);
+  const [newNotification, setNewNotification] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     fetchNotificationList().then(setNotifications);
@@ -45,7 +47,13 @@ export function useWebSocketNotifications() {
             full_data: data.full_data,
             device: data.device,
           };
+
           setNotifications((prev) => [mapped, ...prev]);
+
+          // Trigger toast
+          setNewNotification(true);
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => setNewNotification(false), 4000);
         }
       } catch (e) {
         console.error('WebSocket parsing error:', e);
@@ -56,10 +64,11 @@ export function useWebSocketNotifications() {
 
     return () => {
       ws.close();
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
-  return { notifications, setNotifications };
+  return { notifications, setNotifications, newNotification, setNewNotification };
 }
 
 export const updateNotification = async (

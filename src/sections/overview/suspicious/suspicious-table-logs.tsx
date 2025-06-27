@@ -13,7 +13,6 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fTime, fDate } from 'src/utils/format-time';
 
-import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
@@ -42,7 +41,7 @@ export function OrderTableRow({ row }: Props) {
         <TableCell>{row.file_name}</TableCell>
         <TableCell>{row.risk_score}</TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <Label
             variant="soft"
             color={
@@ -53,7 +52,7 @@ export function OrderTableRow({ row }: Props) {
           >
             {row.is_quarantined ? 'Yes' : 'No'}
           </Label>
-        </TableCell>
+        </TableCell> */}
 
         <TableCell>
           <ListItemText

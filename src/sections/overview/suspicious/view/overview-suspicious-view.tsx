@@ -28,7 +28,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Device' },
   { id: 'name', label: 'File name' },
   { id: 'risk_score', label: 'Risk score' },
-  { id: 'is_quarantined', label: 'Is quarantined' },
+  //   { id: 'is_quarantined', label: 'Is quarantined' },
   { id: 'created_at', label: 'Reated date' },
   { id: '', width: 88 },
 ];

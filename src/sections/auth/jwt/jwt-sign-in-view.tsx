@@ -66,8 +66,14 @@ export function JwtSignInView() {
 
       router.refresh();
     } catch (error) {
-      console.error(error);
-      setErrorMsg(error instanceof Error ? error.message : error);
+      console.error('Login error:', error);
+      setErrorMsg(
+        typeof error === 'string'
+          ? error
+          : error instanceof Error
+            ? error.message
+            : 'User name or password is incorrect!'
+      );
     }
   });
 
@@ -79,7 +85,7 @@ export function JwtSignInView() {
 
   const renderForm = (
     <Stack spacing={3}>
-      <Field.Text name="name" label="User name" InputLabelProps={{ shrink: true }} />
+      <Field.Text name="username" label="User name" InputLabelProps={{ shrink: true }} />
 
       <Stack spacing={1.5}>
         <Link

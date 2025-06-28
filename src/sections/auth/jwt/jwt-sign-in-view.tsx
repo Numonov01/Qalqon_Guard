@@ -27,14 +27,10 @@ import { signInWithPassword } from 'src/auth/context/jwt';
 export type SignInSchemaType = zod.infer<typeof SignInSchema>;
 
 export const SignInSchema = zod.object({
-  email: zod
-    .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Email must be a valid email address!' }),
-  password: zod
-    .string()
-    .min(1, { message: 'Password is required!' })
-    .min(6, { message: 'Password must be at least 6 characters!' }),
+  username: zod.string().min(1, { message: 'Username is required!' }),
+  // .min(6, { message: 'Password must be at least 6 characters!' }),
+  password: zod.string().min(1, { message: 'Password is required!' }),
+  // .min(6, { message: 'Password must be at least 6 characters!' }),
 });
 
 // ----------------------------------------------------------------------
@@ -49,8 +45,8 @@ export function JwtSignInView() {
   const password = useBoolean();
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: '@demo1',
+    username: 'admin',
+    password: '1',
   };
 
   const methods = useForm<SignInSchemaType>({
@@ -65,19 +61,13 @@ export function JwtSignInView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      setErrorMsg('');
-      await signInWithPassword({ email: data.email, password: data.password });
+      await signInWithPassword({ username: data.username, password: data.password });
       await checkUserSession?.();
+
       router.refresh();
     } catch (error) {
       console.error(error);
-      setErrorMsg(
-        typeof error === 'string'
-          ? error
-          : error instanceof Error
-            ? error.message
-            : 'Email or Password error'
-      );
+      setErrorMsg(error instanceof Error ? error.message : error);
     }
   });
 
@@ -89,7 +79,7 @@ export function JwtSignInView() {
 
   const renderForm = (
     <Stack spacing={3}>
-      <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
+      <Field.Text name="name" label="User name" InputLabelProps={{ shrink: true }} />
 
       <Stack spacing={1.5}>
         <Link
@@ -139,7 +129,7 @@ export function JwtSignInView() {
       {renderHead}
 
       <Alert severity="info" sx={{ mb: 3 }}>
-        Use <strong>{defaultValues.email}</strong>
+        Use <strong>{defaultValues.username}</strong>
         {' with password '}
         <strong>{defaultValues.password}</strong>
       </Alert>

@@ -39,7 +39,7 @@ export type ConfigValue = {
 export const CONFIG: ConfigValue = {
   site: {
     name: 'Qalqon Guard',
-    serverUrl: import.meta.env.VITE_SERVER_URL ?? '',
+    serverUrl: import.meta.env.VITE_QWERT_API ?? '',
     assetURL: import.meta.env.VITE_ASSET_URL ?? '',
     basePath: import.meta.env.VITE_BASE_PATH ?? '',
     version: packageJson.version,

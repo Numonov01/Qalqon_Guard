@@ -37,7 +37,7 @@ const ICONS = {
   analytics: icon('ic-analytics'),
   dashboard: icon('ic-dashboard'),
   parameter: icon('ic-parameter'),
-  athlete: icon('ic-athlete'),
+  notification: icon('ic-notification'),
 };
 
 // ----------------------------------------------------------------------
@@ -80,7 +80,7 @@ export const navData = [
       {
         title: 'Xabarnoma',
         path: paths.dashboard.general.notification,
-        icon: ICONS.athlete,
+        icon: ICONS.notification,
       },
     ],
   },

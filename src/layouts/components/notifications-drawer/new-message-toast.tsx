@@ -1,4 +1,3 @@
-// src/components/NewMessageToast.tsx
 import { Alert, Snackbar } from '@mui/material';
 
 export function NewMessageToast({ open, onClose }: { open: boolean; onClose: () => void }) {

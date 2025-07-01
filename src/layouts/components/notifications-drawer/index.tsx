@@ -1,4 +1,3 @@
-// src/NotificationsDrawer.tsx
 import { m } from 'framer-motion';
 
 import { Box, Badge, Stack, Drawer, SvgIcon, IconButton, Typography } from '@mui/material';
@@ -8,7 +7,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { varHover } from 'src/components/animate';
 import { Scrollbar } from 'src/components/scrollbar';
 
-import { NewMessageToast } from './NewMessageToast';
+import { NewMessageToast } from './new-message-toast';
 import { NotificationItem } from './notification-item';
 import { updateNotification, useWebSocketNotifications } from './ws';
 

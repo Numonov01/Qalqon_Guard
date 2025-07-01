@@ -108,6 +108,7 @@ export const paths = {
       suspiciousscripts: `${ROOTS.DASHBOARD}/suspiciousscripts`,
       suspicious: `${ROOTS.DASHBOARD}/suspicious`,
       driver: `${ROOTS.DASHBOARD}/driver`,
+      notification: `${ROOTS.DASHBOARD}/notification`,
     },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,

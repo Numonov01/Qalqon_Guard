@@ -1,4 +1,3 @@
-// src/ws.ts
 import type { WSNotification } from 'src/types/notification';
 
 import axios from 'axios';
@@ -46,6 +45,8 @@ export function useWebSocketNotifications() {
             event: data.event,
             full_data: data.full_data,
             device: data.device,
+            is_approved: data.is_approved,
+            device_info: data.device_info,
           };
 
           setNotifications((prev) => [mapped, ...prev]);

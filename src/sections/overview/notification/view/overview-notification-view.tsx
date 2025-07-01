@@ -1,4 +1,4 @@
-import type { DriverLoad } from 'src/types/driver-load';
+import type { WSNotification } from 'src/types/notification';
 
 import { useState, useEffect } from 'react';
 
@@ -7,7 +7,7 @@ import { Box, Card, Table, TableBody } from '@mui/material';
 import { paths } from 'src/routes/paths';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { fetchDriverLoadList } from 'src/service/driver-load';
+import { fetchNotification } from 'src/service/notification';
 
 import { Scrollbar } from 'src/components/scrollbar';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
@@ -21,19 +21,19 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { DriverLoadTableRow } from '../driver-load-table-logs';
-import { DriverLoadTableToolbar } from '../driver-load-table-toolbar';
+import { NotificationTableRow } from '../notification-table-logs';
+import { NotificationTableToolbar } from '../notification-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Device' },
-  { id: 'bios_uuid', label: 'Bios uuid' },
-  { id: 'ip_address', label: 'Ip address' },
-  { id: 'created_at', label: 'Created date' },
+  { id: 'name', label: 'Exe name' },
+  { id: 'is_approved', label: 'Ruxsatlar' },
+  { id: 'timestamp', label: 'Time stamp' },
   { id: '', width: 88 },
 ];
 
-export default function OverviewDriverLoadView() {
-  const [driverLoadLogs, setDriverLoadLogs] = useState<DriverLoad[]>([]);
+export default function OverviewNotificationView() {
+  const [notificationLogs, setNotificationLogs] = useState<WSNotification[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [page, setPage] = useState(1);
@@ -48,23 +48,23 @@ export default function OverviewDriverLoadView() {
   const [filterName, setFilterName] = useState('');
 
   useEffect(() => {
-    const loadDriverLoadLogs = async () => {
+    const loadNotificationLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchDriverLoadList(page);
-        setDriverLoadLogs(data.results || []);
+        const data = await fetchNotification(page);
+        setNotificationLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
-        console.error('Failed to fetch suspicious logs:', error);
+        console.error('Failed to fetch notification logs:', error);
       } finally {
         setLoading(false);
       }
     };
-    loadDriverLoadLogs();
+    loadNotificationLogs();
   }, [page]);
 
   const dataFiltered = applyFilter({
-    inputData: driverLoadLogs,
+    inputData: notificationLogs,
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
@@ -78,16 +78,16 @@ export default function OverviewDriverLoadView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Driver load"
+        heading="Xabarnoma "
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Driver load', href: paths.dashboard.general.suspicious },
+          { name: 'Xabarnoma', href: paths.dashboard.general.detect },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
       <Card>
-        <DriverLoadTableToolbar
+        <NotificationTableToolbar
           filterName={filterName}
           onFilterName={(e) => setFilterName(e.target.value)}
         />
@@ -105,7 +105,7 @@ export default function OverviewDriverLoadView() {
 
               <TableBody>
                 {dataFiltered.map((row) => (
-                  <DriverLoadTableRow key={row.id} row={row} />
+                  <NotificationTableRow key={row.id} row={row} />
                 ))}
 
                 <TableEmptyRows
@@ -137,7 +137,7 @@ function applyFilter({
   comparator,
   filterName,
 }: {
-  inputData: DriverLoad[];
+  inputData: WSNotification[];
   comparator: (a: any, b: any) => number;
   filterName: string;
 }) {
@@ -154,9 +154,12 @@ function applyFilter({
   if (filterName) {
     data = data.filter(
       (log) =>
-        log.device_info.name.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.device_info.bios_uuid.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.full_data.toLowerCase().includes(filterName.toLowerCase())
+        log.full_data.full_data.name.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.full_data.todo.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.full_data.full_data.parent_pid
+          .toString()
+          .toLowerCase()
+          .includes(filterName.toLowerCase())
     );
   }
 

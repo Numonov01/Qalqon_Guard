@@ -18,7 +18,7 @@ type Props = {
   row: DriverLoad;
 };
 
-export function OrderTableRow({ row }: Props) {
+export function DriverLoadTableRow({ row }: Props) {
   const collapse = useBoolean();
 
   const handleToggle = (e: React.MouseEvent) => {

@@ -1,4 +1,3 @@
-// order-table-toolbar.tsx
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -10,7 +9,7 @@ type Props = {
   onFilterName: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function DriverLoadTableToolbar({ filterName, onFilterName }: Props) {
+export function NotificationTableToolbar({ filterName, onFilterName }: Props) {
   return (
     <Stack
       spacing={2}

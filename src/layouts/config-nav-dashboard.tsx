@@ -58,7 +58,7 @@ export const navData = [
         icon: ICONS.analytics,
       },
       {
-        title: 'Stack detect',
+        title: 'Stack faoliyatini aniqlash',
         path: paths.dashboard.general.detect,
         icon: ICONS.course,
       },
@@ -76,6 +76,11 @@ export const navData = [
         title: 'Driver load',
         path: paths.dashboard.general.driver,
         icon: ICONS.order,
+      },
+      {
+        title: 'Xabarnoma',
+        path: paths.dashboard.general.notification,
+        icon: ICONS.athlete,
       },
     ],
   },

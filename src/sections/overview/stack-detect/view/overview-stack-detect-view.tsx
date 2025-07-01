@@ -78,10 +78,10 @@ export default function OverviewStackDetectView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Stack detect"
+        heading="Stack faoliyatini aniqlash"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Stack detect', href: paths.dashboard.general.detect },
+          { name: 'Stack faoliyatini aniqlash', href: paths.dashboard.general.detect },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

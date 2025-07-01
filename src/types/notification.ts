@@ -1,3 +1,10 @@
+export interface NotificationList {
+  count: number;
+  next: null;
+  previous: null;
+  results: WSNotification[];
+}
+
 export type WSNotification = {
   event: 'new_approval_request';
   id: number;
@@ -15,4 +22,11 @@ export type WSNotification = {
     todo: string;
   };
   device: string;
+  is_approved: string;
+  device_info: {
+    id: number;
+    name: string;
+    ip_address: string;
+    bios_uuid: string;
+  };
 };

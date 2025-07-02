@@ -51,7 +51,6 @@ export function useWebSocketNotifications() {
 
           setNotifications((prev) => [mapped, ...prev]);
 
-          // Trigger toast
           setNewNotification(true);
           if (timeoutRef.current) clearTimeout(timeoutRef.current);
           timeoutRef.current = setTimeout(() => setNewNotification(false), 4000);

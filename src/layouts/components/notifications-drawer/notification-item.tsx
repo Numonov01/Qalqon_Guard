@@ -32,7 +32,7 @@ export function NotificationItem({
   onBlock: (id: number) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const data = notification.full_data.full_data;
+  const data = notification.full_data.about;
   const { todo } = notification.full_data;
 
   const getRiskLevel = (score: number) => {

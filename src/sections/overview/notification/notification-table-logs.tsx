@@ -47,7 +47,7 @@ export function NotificationTableRow({ row }: Props) {
           />
         </TableCell>
 
-        <TableCell>{row.full_data.full_data.name}</TableCell>
+        <TableCell>{row.full_data.about.name}</TableCell>
         <TableCell>
           <Label
             variant="soft"
@@ -64,8 +64,8 @@ export function NotificationTableRow({ row }: Props) {
 
         <TableCell>
           <ListItemText
-            primary={fDate(row.full_data.full_data.timestamp)}
-            secondary={fTime(row.full_data.full_data.timestamp)}
+            primary={fDate(row.full_data.about.timestamp)}
+            secondary={fTime(row.full_data.about.timestamp)}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               component: 'span',
@@ -100,7 +100,7 @@ export function NotificationTableRow({ row }: Props) {
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
                 <ListItemText
-                  primary={row.full_data.full_data.cwd}
+                  primary={row.full_data.about.cwd}
                   secondary={row.full_data.todo}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{
@@ -109,8 +109,8 @@ export function NotificationTableRow({ row }: Props) {
                     mt: 0.5,
                   }}
                 />
-                <Box sx={{ px: 5 }}>PID: {row.full_data.full_data.pid}</Box>
-                <Box>Parent PID: {row.full_data.full_data.parent_pid}</Box>
+                <Box sx={{ px: 5 }}>PID: {row.full_data.about.pid}</Box>
+                <Box>Parent PID: {row.full_data.about.parent_pid}</Box>
                 {/* <Box sx={{ width: 210, textAlign: 'right' }}>
                   <ListItemText
                     primary={fDate(row.full_data.full_data.timestamp)}
@@ -133,7 +133,7 @@ export function NotificationTableRow({ row }: Props) {
                     CMD line
                   </Typography>
                   <Stack spacing={1}>
-                    {Object.entries(row.full_data.full_data.cmdline).map(([key, value]) => (
+                    {Object.entries(row.full_data.about.cmdline).map(([key, value]) => (
                       <Box key={key} sx={{ display: 'flex', gap: 1 }}>
                         <Typography variant="body2" fontWeight="bold">
                           {key}:
@@ -149,7 +149,7 @@ export function NotificationTableRow({ row }: Props) {
                     Indicators
                   </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap">
-                    {row.full_data.full_data.mitre_ids.map((mitre_ids) => (
+                    {row.full_data.about.mitre_ids.map((mitre_ids) => (
                       <Label key={mitre_ids} variant="soft" color="info">
                         {mitre_ids}
                       </Label>

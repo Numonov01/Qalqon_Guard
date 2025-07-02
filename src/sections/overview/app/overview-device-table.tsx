@@ -129,7 +129,7 @@ export function UserTable({
                   <TableCell>{device.bios_uuid}</TableCell>
                   <TableCell>{device.ip_addres}</TableCell>
                   <TableCell>
-                    <Label variant="soft" color={device.is_active ? 'success' : 'warning'}>
+                    <Label variant="inverted" color={device.is_active ? 'success' : 'error'}>
                       {device.is_active ? 'Active' : 'Inactive'}
                     </Label>
                   </TableCell>

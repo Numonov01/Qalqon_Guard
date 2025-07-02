@@ -1,9 +1,10 @@
 import { m } from 'framer-motion';
 
-import { Box, Badge, Stack, Drawer, SvgIcon, IconButton, Typography } from '@mui/material';
+import { Box, Badge, Stack, Drawer, SvgIcon, Tooltip, IconButton, Typography } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { Iconify } from 'src/components/iconify';
 import { varHover } from 'src/components/animate';
 import { Scrollbar } from 'src/components/scrollbar';
 
@@ -31,6 +32,15 @@ export function NotificationsDrawer() {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     } catch (error) {
       console.error('Failed to block notification:', error);
+    }
+  };
+
+  const handleBlockAll = async () => {
+    try {
+      await Promise.all(notifications.map((n) => updateNotification(n.id, 'REJECT')));
+      setNotifications([]);
+    } catch (error) {
+      console.error('Failed to mark all as read:', error);
     }
   };
 
@@ -68,6 +78,12 @@ export function NotificationsDrawer() {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Notifications
           </Typography>
+
+          <Tooltip title="Mark all as blocked">
+            <IconButton color="primary" onClick={handleBlockAll}>
+              <Iconify icon="eva:done-all-fill" />
+            </IconButton>
+          </Tooltip>
         </Stack>
 
         <Scrollbar>

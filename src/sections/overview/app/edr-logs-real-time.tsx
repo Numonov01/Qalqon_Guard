@@ -62,7 +62,7 @@ export function LogStatsChart({ title, subheader, ...other }: Props) {
   ];
 
   const chartOptions = useChart({
-    colors: [theme.palette.primary.main, theme.palette.warning.main, theme.palette.error.main],
+    colors: [theme.palette.warning.main, theme.palette.error.main],
     stroke: {
       width: 2,
     },

@@ -37,8 +37,8 @@ import {
 import { AppTopAuthors } from '../edr-info';
 import { OrderTableRow } from '../edr-table-logs';
 import { UserTable } from '../overview-device-table';
+import { LogStatsChart } from '../edr-logs-real-time';
 import { EdrTableToolbar } from '../edr-table-toolbar';
-import { LogStatsChart } from '../ecommerce-yearly-sales';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'Id' },

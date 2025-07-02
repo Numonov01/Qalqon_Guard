@@ -38,7 +38,7 @@ export function NotificationItem({
   const getRiskLevel = (score: number) => {
     if (score >= 8) return { level: 'high', color: 'error' as const, text: 'Yuqori' };
     if (score >= 5) return { level: 'medium', color: 'warning' as const, text: "O'rta" };
-    return { level: 'low', color: 'success' as const, text: 'Past' };
+    return { level: 'low', color: 'primary' as const, text: 'Past' };
   };
 
   const riskInfo = getRiskLevel(data.risk_score);
@@ -53,7 +53,7 @@ export function NotificationItem({
             ? 'error.light'
             : riskInfo.level === 'medium'
               ? 'warning.light'
-              : 'success.light',
+              : '#FDA94E',
         borderRadius: 2,
         overflow: 'hidden',
         transition: 'all 0.3s ease',
@@ -67,10 +67,10 @@ export function NotificationItem({
         sx={{
           background: `linear-gradient(135deg, ${
             riskInfo.level === 'high'
-              ? '#ff5252 0%, #f44336 100%'
+              ? '#ff5252, #f44336'
               : riskInfo.level === 'medium'
-                ? '#ff9800 0%, #f57c00 100%'
-                : '#4caf50 0%, #388e3c 100%'
+                ? '#ffb74d, #FDA94E'
+                : '#FDA94E, #ffcc80'
           })`,
           color: 'white',
           p: 2,
@@ -108,7 +108,7 @@ export function NotificationItem({
         <Stack spacing={2}>
           <Box>
             <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-              Process Malumotlari
+              Process malumotlari
             </Typography>
             <Stack direction="row" flexWrap="wrap" gap={1} mb={1}>
               <Chip
@@ -116,8 +116,14 @@ export function NotificationItem({
                 label={`PID: ${data.pid}`}
                 size="small"
                 variant="outlined"
+                sx={{ borderColor: '#FDA94E', color: '#FDA94E' }}
               />
-              <Chip label={`Parent PID: ${data.parent_pid}`} size="small" variant="outlined" />
+              <Chip
+                label={`Parent PID: ${data.parent_pid}`}
+                size="small"
+                variant="outlined"
+                sx={{ borderColor: '#FDA94E', color: '#FDA94E' }}
+              />
               <Chip
                 label={`Risk: ${data.risk_score}/10`}
                 size="small"
@@ -139,21 +145,25 @@ export function NotificationItem({
             <Button
               onClick={() => setExpanded(!expanded)}
               endIcon={expanded ? <ExpandLess /> : <ExpandMore />}
-              sx={{ mb: 1 }}
+              sx={{
+                mb: 1,
+                color: '#FDA94E',
+                '&:hover': { backgroundColor: '#FFF0D9' },
+              }}
             >
               Batafsil malumotlar
             </Button>
 
             <Collapse in={expanded}>
               <Stack spacing={2}>
-                {data.cmdline && data.cmdline.length > 0 && (
+                {data.cmdline?.length > 0 && (
                   <Box>
                     <Typography variant="subtitle2" gutterBottom>
                       Buyruq qatori:
                     </Typography>
                     <Box
                       sx={{
-                        backgroundColor: 'grey.100',
+                        backgroundColor: '#FFF7EB',
                         borderRadius: 1,
                         p: 1,
                         maxHeight: 150,
@@ -178,7 +188,7 @@ export function NotificationItem({
                   </Box>
                 )}
 
-                {data.mitre_ids && data.mitre_ids.length > 0 && (
+                {data.mitre_ids?.length > 0 && (
                   <Box>
                     <Typography variant="subtitle2" gutterBottom>
                       MITRE ATT&CK Texnikalari:
@@ -189,7 +199,10 @@ export function NotificationItem({
                           key={idx}
                           label={id}
                           size="small"
-                          color="warning"
+                          sx={{
+                            borderColor: '#FDA94E',
+                            color: '#FDA94E',
+                          }}
                           variant="outlined"
                         />
                       ))}
@@ -205,7 +218,10 @@ export function NotificationItem({
               <Divider />
               <Box>
                 {todo && (
-                  <Alert severity="info" sx={{ mb: 1 }}>
+                  <Alert
+                    severity="info"
+                    sx={{ mb: 1, backgroundColor: '#FFF0D9', color: '#6B4A00' }}
+                  >
                     <Typography variant="body2">
                       <strong>Vazifa:</strong> {todo}
                     </Typography>
@@ -222,29 +238,31 @@ export function NotificationItem({
           <Stack direction="row" spacing={2} justifyContent="flex-end">
             <Button
               variant="contained"
-              color="success"
-              startIcon={<CheckCircle />}
-              onClick={() => onAllow(notification.id)}
               sx={{
+                backgroundColor: '#4CAF50',
+                '&:hover': { backgroundColor: '#43A047' },
                 minWidth: 120,
                 borderRadius: 2,
                 textTransform: 'none',
                 fontWeight: 'bold',
               }}
+              startIcon={<CheckCircle />}
+              onClick={() => onAllow(notification.id)}
             >
               Ruxsat berish
             </Button>
             <Button
               variant="contained"
-              color="error"
-              startIcon={<Block />}
-              onClick={() => onBlock(notification.id)}
               sx={{
+                backgroundColor: '#F44336',
+                '&:hover': { backgroundColor: '#E53935' },
                 minWidth: 120,
                 borderRadius: 2,
                 textTransform: 'none',
                 fontWeight: 'bold',
               }}
+              startIcon={<Block />}
+              onClick={() => onBlock(notification.id)}
             >
               Bloklash
             </Button>

@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------
 
-export type LanguageValue = 'en' | 'fr' | 'vi' | 'cn' | 'ar';
+export type LanguageValue = 'en' | 'fr' | 'vi' | 'cn' | 'ar' | 'uz' | 'ru';
 
-export const fallbackLng = 'en';
-export const languages = ['en', 'fr', 'vi', 'cn', 'ar'];
+export const fallbackLng = 'uz';
+export const languages = ['en', 'fr', 'vi', 'cn', 'ar', 'uz', 'ru'] as LanguageValue[];
 export const defaultNS = 'common';
 export const cookieName = 'i18next';
 
@@ -31,6 +31,16 @@ export const changeLangMessages: Record<
     success: 'Language has been changed!',
     error: 'Error changing language!',
     loading: 'Loading...',
+  },
+  uz: {
+    success: "Til o'zgartirildi!",
+    error: "Tilni o'zgartirishda xatolik!",
+    loading: 'Yuklanmoqda...',
+  },
+  ru: {
+    success: 'Язык был изменен!',
+    error: 'Ошибка при смене языка!',
+    loading: 'Загрузка...',
   },
   vi: {
     success: 'Ngôn ngữ đã được thay đổi!',

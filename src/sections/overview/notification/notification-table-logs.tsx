@@ -3,7 +3,6 @@ import type { WSNotification } from 'src/types/notification';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
@@ -11,8 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-
-import { fTime, fDate } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
@@ -47,7 +44,7 @@ export function NotificationTableRow({ row }: Props) {
           />
         </TableCell>
 
-        <TableCell>{row.full_data.about.name}</TableCell>
+        <TableCell>{row.full_data.todo}</TableCell>
         <TableCell>
           <Label
             variant="soft"
@@ -62,7 +59,7 @@ export function NotificationTableRow({ row }: Props) {
           </Label>
         </TableCell>
 
-        <TableCell>
+        {/* <TableCell>
           <ListItemText
             primary={fDate(row.full_data.about.timestamp)}
             secondary={fTime(row.full_data.about.timestamp)}
@@ -73,7 +70,7 @@ export function NotificationTableRow({ row }: Props) {
               mt: 0.5,
             }}
           />
-        </TableCell>
+        </TableCell> */}
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton
@@ -100,8 +97,8 @@ export function NotificationTableRow({ row }: Props) {
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
                 <ListItemText
-                  primary={row.full_data.about.cwd}
-                  secondary={row.full_data.todo}
+                  primary={row.full_data.about.reason}
+                  secondary={row.full_data.description}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{
                     component: 'span',
@@ -109,8 +106,19 @@ export function NotificationTableRow({ row }: Props) {
                     mt: 0.5,
                   }}
                 />
-                <Box sx={{ px: 5 }}>PID: {row.full_data.about.pid}</Box>
-                <Box>Parent PID: {row.full_data.about.parent_pid}</Box>
+
+                <Box>
+                  <ListItemText
+                    primary="File Hash"
+                    secondary={row.full_data.about.file_hash}
+                    primaryTypographyProps={{ typography: 'body2' }}
+                    secondaryTypographyProps={{
+                      component: 'span',
+                      color: 'text.disabled',
+                      mt: 0.5,
+                    }}
+                  />
+                </Box>
                 {/* <Box sx={{ width: 210, textAlign: 'right' }}>
                   <ListItemText
                     primary={fDate(row.full_data.full_data.timestamp)}
@@ -128,7 +136,17 @@ export function NotificationTableRow({ row }: Props) {
 
             <Paper sx={{ m: 1.5 }}>
               <Stack spacing={2} sx={{ p: 2 }}>
-                <Box>
+                <ListItemText
+                  primary="File Path"
+                  secondary={row.full_data.about.file_path}
+                  primaryTypographyProps={{ typography: 'body2' }}
+                  secondaryTypographyProps={{
+                    component: 'span',
+                    color: 'text.disabled',
+                    mt: 0.5,
+                  }}
+                />
+                {/* <Box>
                   <Typography variant="subtitle2" gutterBottom>
                     CMD line
                   </Typography>
@@ -142,9 +160,9 @@ export function NotificationTableRow({ row }: Props) {
                       </Box>
                     ))}
                   </Stack>
-                </Box>
+                </Box> */}
 
-                <Box>
+                {/* <Box>
                   <Typography variant="subtitle2" gutterBottom>
                     Indicators
                   </Typography>
@@ -155,7 +173,7 @@ export function NotificationTableRow({ row }: Props) {
                       </Label>
                     ))}
                   </Stack>
-                </Box>
+                </Box> */}
               </Stack>
             </Paper>
           </Collapse>

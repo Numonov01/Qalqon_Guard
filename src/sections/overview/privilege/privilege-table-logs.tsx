@@ -5,6 +5,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import { Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
@@ -15,6 +16,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fTime, fDate } from 'src/utils/format-time';
 
+import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 type Props = {
@@ -79,7 +81,7 @@ export function OrderTableRow({ row }: Props) {
                 <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
                   <ListItemText
                     primary={row.commandline}
-                    secondary={row.privileges}
+                    secondary={row.parent}
                     primaryTypographyProps={{ typography: 'body2' }}
                     secondaryTypographyProps={{
                       component: 'span',
@@ -89,7 +91,7 @@ export function OrderTableRow({ row }: Props) {
                   />
                   <Box sx={{ flexGrow: 1 }} />
                   <Box sx={{ width: 210, textAlign: 'center' }}>{row.pid}</Box>
-                  <Box>{row.parent}</Box>
+                  <Box>{row.detected}</Box>
                   <Box sx={{ width: 210, textAlign: 'right' }}>
                     <ListItemText
                       primary={fDate(row.time)}
@@ -108,16 +110,18 @@ export function OrderTableRow({ row }: Props) {
 
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
-                <ListItemText
-                  primary="Detected"
-                  secondary={row.detected || 'No additional information'}
-                  primaryTypographyProps={{ typography: 'body2' }}
-                  secondaryTypographyProps={{
-                    component: 'span',
-                    color: 'text.disabled',
-                    mt: 0.5,
-                  }}
-                />
+                <Box>
+                  <Typography variant="subtitle2" gutterBottom>
+                    Privileges
+                  </Typography>
+                  <Stack direction="row" spacing={1} flexWrap="wrap">
+                    {row.privileges.map((privileges) => (
+                      <Label key={privileges} variant="soft" color="info">
+                        {privileges}
+                      </Label>
+                    ))}
+                  </Stack>
+                </Box>
               </Stack>
             </Paper>
           </Collapse>

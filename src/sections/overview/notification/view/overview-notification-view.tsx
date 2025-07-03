@@ -26,9 +26,9 @@ import { NotificationTableToolbar } from '../notification-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Device' },
-  { id: 'name', label: 'Exe name' },
+  { id: 'todo', label: 'Todo' },
   { id: 'is_approved', label: 'Ruxsatlar' },
-  { id: 'timestamp', label: 'Time stamp' },
+  // { id: 'timestamp', label: 'Time stamp' },
   { id: '', width: 88 },
 ];
 

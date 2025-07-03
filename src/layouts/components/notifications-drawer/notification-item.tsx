@@ -2,6 +2,7 @@ import type { WSNotification } from 'src/types/notification';
 
 import { useState } from 'react';
 
+import { Box, Card, Stack, Alert, Button, Divider, Collapse, Typography } from '@mui/material';
 import {
   Block,
   Security,
@@ -10,17 +11,6 @@ import {
   ExpandLess,
   CheckCircle,
 } from '@mui/icons-material';
-import {
-  Box,
-  Card,
-  Chip,
-  Stack,
-  Alert,
-  Button,
-  Divider,
-  Collapse,
-  Typography,
-} from '@mui/material';
 
 export function NotificationItem({
   notification,
@@ -77,7 +67,7 @@ export function NotificationItem({
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" alignItems="center" spacing={2}>
+          <Stack direction="row" alignItems="center">
             <Security fontSize="large" />
             <Box>
               <Typography variant="h6" fontWeight="bold">
@@ -92,7 +82,7 @@ export function NotificationItem({
             </Box>
           </Stack>
 
-          <Chip
+          {/* <Chip
             label={`${riskInfo.text} Xavf`}
             size="small"
             sx={{
@@ -100,17 +90,17 @@ export function NotificationItem({
               color: 'white',
               fontWeight: 'bold',
             }}
-          />
+          /> */}
         </Stack>
       </Box>
 
       <Box sx={{ p: 2 }}>
         <Stack spacing={2}>
           <Box>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+            {/* <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
               Process malumotlari
-            </Typography>
-            <Stack direction="row" flexWrap="wrap" gap={1} mb={1}>
+            </Typography> */}
+            {/* <Stack direction="row" flexWrap="wrap" gap={1} mb={1}>
               <Chip
                 icon={<Security />}
                 label={`PID: ${data.pid}`}
@@ -130,13 +120,13 @@ export function NotificationItem({
                 color={riskInfo.color}
                 sx={{ fontWeight: 'bold' }}
               />
-            </Stack>
-            <Typography variant="body2" color="text.secondary">
-              <strong>Nom:</strong> {data.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-              <strong>Ishchi katalog:</strong> {data.cwd}
-            </Typography>
+            </Stack> */}
+            {/* <Typography variant="body2" color="text.secondary">
+              Name: {notification.device_info.name}
+            </Typography> */}
+            {/* <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+              Ip address: {notification.device_info.ip_address}
+            </Typography> */}
           </Box>
 
           <Divider />
@@ -156,39 +146,45 @@ export function NotificationItem({
 
             <Collapse in={expanded}>
               <Stack spacing={2}>
-                {data.cmdline?.length > 0 && (
-                  <Box>
-                    <Typography variant="subtitle2" gutterBottom>
-                      Buyruq qatori:
-                    </Typography>
-                    <Box
+                <Box>
+                  <Typography variant="subtitle2" gutterBottom>
+                    File malumotlari:
+                  </Typography>
+                  <Box
+                    sx={{
+                      backgroundColor: '#FFF7EB',
+                      borderRadius: 1,
+                      p: 1,
+                      maxHeight: 150,
+                      overflow: 'auto',
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      component="div"
                       sx={{
-                        backgroundColor: '#FFF7EB',
-                        borderRadius: 1,
-                        p: 1,
-                        maxHeight: 150,
-                        overflow: 'auto',
+                        fontFamily: 'monospace',
+                        fontSize: '0.8rem',
+                        mb: 0.5,
                       }}
                     >
-                      {data.cmdline.map((cmd: string, idx: number) => (
-                        <Typography
-                          key={idx}
-                          variant="body2"
-                          component="div"
-                          sx={{
-                            fontFamily: 'monospace',
-                            fontSize: '0.8rem',
-                            mb: 0.5,
-                          }}
-                        >
-                          {cmd}
-                        </Typography>
-                      ))}
-                    </Box>
+                      {data.file_hash}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{
+                        fontFamily: 'monospace',
+                        fontSize: '0.8rem',
+                        mb: 0.5,
+                      }}
+                    >
+                      {data.file_path}
+                    </Typography>
                   </Box>
-                )}
+                </Box>
 
-                {data.mitre_ids?.length > 0 && (
+                {/* {data.mitre_ids?.length > 0 && (
                   <Box>
                     <Typography variant="subtitle2" gutterBottom>
                       MITRE ATT&CK Texnikalari:
@@ -208,7 +204,7 @@ export function NotificationItem({
                       ))}
                     </Stack>
                   </Box>
-                )}
+                )} */}
               </Stack>
             </Collapse>
           </Box>

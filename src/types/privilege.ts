@@ -24,6 +24,6 @@ export interface Privilege {
   time: string;
   action_taken: string;
   commandline: string;
-  privileges: string;
+  privileges: string[];
   created_at: string;
 }

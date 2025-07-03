@@ -1,7 +1,7 @@
 export interface NotificationList {
   count: number;
-  next: null;
-  previous: null;
+  next: string | null;
+  previous: string | null;
   results: WSNotification[];
 }
 
@@ -18,8 +18,12 @@ export type WSNotification = {
       risk_score: number;
       mitre_ids: string[];
       timestamp: string;
+      file_path: string;
+      file_hash: string;
+      reason: string;
     };
     todo: string;
+    description: string;
   };
   device: string;
   is_approved: string;

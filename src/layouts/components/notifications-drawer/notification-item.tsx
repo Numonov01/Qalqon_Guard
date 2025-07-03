@@ -1,6 +1,6 @@
 import type { WSNotification } from 'src/types/notification';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Box, Card, Stack, Alert, Button, Divider, Collapse, Typography } from '@mui/material';
 import {
@@ -12,6 +12,8 @@ import {
   CheckCircle,
 } from '@mui/icons-material';
 
+import { updateNotificationViewStatus } from './ws';
+
 export function NotificationItem({
   notification,
   onAllow,
@@ -22,8 +24,16 @@ export function NotificationItem({
   onBlock: (id: number) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!notification.is_viwed) {
+      updateNotificationViewStatus(notification.id);
+    }
+  }, [notification.id, notification.is_viwed]);
+
   const data = notification.full_data.about;
   const { todo } = notification.full_data;
+  const device = notification.device_info;
 
   const getRiskLevel = (score: number) => {
     if (score >= 8) return { level: 'high', color: 'error' as const, text: 'Yuqori' };
@@ -31,8 +41,9 @@ export function NotificationItem({
     return { level: 'low', color: 'primary' as const, text: 'Past' };
   };
 
-  const riskInfo = getRiskLevel(data.risk_score);
-  console.log('device_info', notification.device_info);
+  const riskInfo = getRiskLevel(data?.risk_score || 0);
+
+  console.log('Device info:', { notification });
 
   return (
     <Card
@@ -68,7 +79,7 @@ export function NotificationItem({
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" alignItems="center">
+          <Stack direction="row" alignItems="center" spacing={2}>
             <Security fontSize="large" />
             <Box>
               <Typography variant="h6" fontWeight="bold">
@@ -77,7 +88,7 @@ export function NotificationItem({
               <Stack direction="row" alignItems="center" spacing={1} mt={0.5}>
                 <Computer fontSize="small" />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  {notification.device_info?.bios_uuid || 'N/A'}
+                  {device?.bios_uuid || 'Maʼlumot mavjud emas'}
                 </Typography>
               </Stack>
             </Box>
@@ -89,10 +100,10 @@ export function NotificationItem({
         <Stack spacing={2}>
           <Box>
             <Typography variant="body2" color="text.secondary">
-              Name: {notification.device_info?.name}
+              Name: {device?.name || 'Maʼlumot mavjud emas'}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-              Ip address: {notification.device_info?.ip_address}
+              Ip address: {device?.ip_address || 'Maʼlumot mavjud emas'}
             </Typography>
           </Box>
 
@@ -108,14 +119,14 @@ export function NotificationItem({
                 '&:hover': { backgroundColor: '#FFF0D9' },
               }}
             >
-              Batafsil malumotlar
+              Batafsil maʼlumotlar
             </Button>
 
             <Collapse in={expanded}>
               <Stack spacing={2}>
                 <Box>
                   <Typography variant="subtitle2" gutterBottom>
-                    File malumotlari:
+                    File maʼlumotlari:
                   </Typography>
                   <Box
                     sx={{
@@ -135,7 +146,7 @@ export function NotificationItem({
                         mb: 0.5,
                       }}
                     >
-                      {data.file_hash}
+                      {data?.file_hash || 'Nomaʼlum'}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -146,7 +157,7 @@ export function NotificationItem({
                         mb: 0.5,
                       }}
                     >
-                      {data.file_path}
+                      {data?.file_path || 'Nomaʼlum'}
                     </Typography>
                   </Box>
                 </Box>

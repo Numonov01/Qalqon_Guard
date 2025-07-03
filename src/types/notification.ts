@@ -29,7 +29,8 @@ export type WSNotification = {
       reason: string;
     };
     todo: string;
-    description: string;
+    description?: string;
   };
   is_approved: string;
+  is_viwed: boolean;
 };

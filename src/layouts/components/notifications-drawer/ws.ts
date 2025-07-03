@@ -9,15 +9,21 @@ const api = axios.create({
 
 export const fetchNotificationList = async (): Promise<WSNotification[]> => {
   try {
-    const response = await api.get('/malicious_file_detects/approve-to-run/');
+    const response = await api.get('/malicious_file_detects/approve-to-run/', {
+      params: { is_viwed: false }, // faqat ko‘rilmaganlar
+    });
     const results = response.data?.results || [];
 
-    return results.map((item: any) => ({
-      id: item.id,
-      event: 'new_approval_request',
-      full_data: item.full_data,
-      device: item.device_info?.bios_uuid || '',
-    }));
+    return results
+      .filter((item: any) => item.is_viwed === false)
+      .map((item: any) => ({
+        id: item.id,
+        event: 'new_approval_request',
+        full_data: item.full_data,
+        device_info: item.device_info,
+        is_viwed: item.is_viwed,
+        is_approved: item.is_approved,
+      }));
   } catch (error) {
     console.error('Error fetching notification list:', error);
     return [];
@@ -46,6 +52,7 @@ export function useWebSocketNotifications() {
             full_data: data.full_data,
             is_approved: data.is_approved,
             device_info: data.device_info,
+            is_viwed: data.is_viwed || false,
           };
 
           setNotifications((prev) => [mapped, ...prev]);
@@ -81,5 +88,15 @@ export const updateNotification = async (
   } catch (error) {
     console.error(`Error updating notification ${id}:`, error);
     throw error;
+  }
+};
+
+export const updateNotificationViewStatus = async (id: number): Promise<void> => {
+  try {
+    await api.patch(`/malicious_file_detects/approve-to-run/${id}/`, {
+      is_viwed: true,
+    });
+  } catch (error) {
+    console.error(`Error marking notification ${id} as viewed:`, error);
   }
 };

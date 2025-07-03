@@ -47,7 +47,7 @@ export function NotificationTableRow({ row }: Props) {
         <TableCell>{row.full_data.todo}</TableCell>
         <TableCell>
           <Label
-            variant="soft"
+            variant="inverted"
             color={
               (row.is_approved === 'REJECT' && 'success') ||
               (row.is_approved === 'WAITING' && 'warning') ||

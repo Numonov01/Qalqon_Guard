@@ -45,6 +45,11 @@ export function NotificationItem({
 
   console.log('Device info:', { notification });
 
+  const place = {
+    right: ['kill_pid'],
+    left: ['restore'],
+  };
+
   return (
     <Card
       sx={{
@@ -187,38 +192,75 @@ export function NotificationItem({
           )}
 
           <Divider />
-          <Stack direction="row" spacing={2} justifyContent="flex-end">
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: '#4CAF50',
-                '&:hover': { backgroundColor: '#43A047' },
-                minWidth: 120,
-                borderRadius: 2,
-                textTransform: 'none',
-                fontWeight: 'bold',
-              }}
-              startIcon={<CheckCircle />}
-              onClick={() => onAllow(notification.id)}
-            >
-              Ruxsat berish
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: '#F44336',
-                '&:hover': { backgroundColor: '#E53935' },
-                minWidth: 120,
-                borderRadius: 2,
-                textTransform: 'none',
-                fontWeight: 'bold',
-              }}
-              startIcon={<Block />}
-              onClick={() => onBlock(notification.id)}
-            >
-              Bloklash
-            </Button>
-          </Stack>
+
+          {place.left.includes(notification.full_data.todo) && (
+            <Stack direction="row" spacing={2} justifyContent="flex-end">
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#4CAF50',
+                  '&:hover': { backgroundColor: '#43A047' },
+                  minWidth: 120,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                }}
+                startIcon={<CheckCircle />}
+                onClick={() => onBlock(notification.id)}
+              >
+                Ruxsat berish
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#F44336',
+                  '&:hover': { backgroundColor: '#E53935' },
+                  minWidth: 120,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                }}
+                startIcon={<Block />}
+                onClick={() => onAllow(notification.id)}
+              >
+                Bloklash
+              </Button>
+            </Stack>
+          )}
+          {place.right.includes(notification.full_data.todo) && (
+            <Stack direction="row" spacing={2} justifyContent="flex-end">
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#4CAF50',
+                  '&:hover': { backgroundColor: '#43A047' },
+                  minWidth: 120,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                }}
+                startIcon={<CheckCircle />}
+                onClick={() => onAllow(notification.id)}
+              >
+                Ruxsat berish
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#F44336',
+                  '&:hover': { backgroundColor: '#E53935' },
+                  minWidth: 120,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                }}
+                startIcon={<Block />}
+                onClick={() => onBlock(notification.id)}
+              >
+                Bloklash
+              </Button>
+            </Stack>
+          )}
         </Stack>
       </Box>
     </Card>

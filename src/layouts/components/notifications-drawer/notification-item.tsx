@@ -32,6 +32,7 @@ export function NotificationItem({
   };
 
   const riskInfo = getRiskLevel(data.risk_score);
+  console.log('device_info', notification.device_info);
 
   return (
     <Card
@@ -76,57 +77,23 @@ export function NotificationItem({
               <Stack direction="row" alignItems="center" spacing={1} mt={0.5}>
                 <Computer fontSize="small" />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  {notification.device}
+                  {notification.device_info?.bios_uuid || 'N/A'}
                 </Typography>
               </Stack>
             </Box>
           </Stack>
-
-          {/* <Chip
-            label={`${riskInfo.text} Xavf`}
-            size="small"
-            sx={{
-              backgroundColor: 'rgba(255,255,255,0.2)',
-              color: 'white',
-              fontWeight: 'bold',
-            }}
-          /> */}
         </Stack>
       </Box>
 
       <Box sx={{ p: 2 }}>
         <Stack spacing={2}>
           <Box>
-            {/* <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-              Process malumotlari
-            </Typography> */}
-            {/* <Stack direction="row" flexWrap="wrap" gap={1} mb={1}>
-              <Chip
-                icon={<Security />}
-                label={`PID: ${data.pid}`}
-                size="small"
-                variant="outlined"
-                sx={{ borderColor: '#FDA94E', color: '#FDA94E' }}
-              />
-              <Chip
-                label={`Parent PID: ${data.parent_pid}`}
-                size="small"
-                variant="outlined"
-                sx={{ borderColor: '#FDA94E', color: '#FDA94E' }}
-              />
-              <Chip
-                label={`Risk: ${data.risk_score}/10`}
-                size="small"
-                color={riskInfo.color}
-                sx={{ fontWeight: 'bold' }}
-              />
-            </Stack> */}
-            {/* <Typography variant="body2" color="text.secondary">
-              Name: {notification.device_info.name}
-            </Typography> */}
-            {/* <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-              Ip address: {notification.device_info.ip_address}
-            </Typography> */}
+            <Typography variant="body2" color="text.secondary">
+              Name: {notification.device_info?.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+              Ip address: {notification.device_info?.ip_address}
+            </Typography>
           </Box>
 
           <Divider />
@@ -183,28 +150,6 @@ export function NotificationItem({
                     </Typography>
                   </Box>
                 </Box>
-
-                {/* {data.mitre_ids?.length > 0 && (
-                  <Box>
-                    <Typography variant="subtitle2" gutterBottom>
-                      MITRE ATT&CK Texnikalari:
-                    </Typography>
-                    <Stack direction="row" flexWrap="wrap" gap={0.5}>
-                      {data.mitre_ids.map((id: string, idx: number) => (
-                        <Chip
-                          key={idx}
-                          label={id}
-                          size="small"
-                          sx={{
-                            borderColor: '#FDA94E',
-                            color: '#FDA94E',
-                          }}
-                          variant="outlined"
-                        />
-                      ))}
-                    </Stack>
-                  </Box>
-                )} */}
               </Stack>
             </Collapse>
           </Box>

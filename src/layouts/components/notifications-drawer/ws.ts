@@ -44,7 +44,6 @@ export function useWebSocketNotifications() {
             id: data.id,
             event: data.event,
             full_data: data.full_data,
-            device: data.device,
             is_approved: data.is_approved,
             device_info: data.device_info,
           };

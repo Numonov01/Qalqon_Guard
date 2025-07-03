@@ -154,9 +154,9 @@ function applyFilter({
   if (filterName) {
     data = data.filter(
       (log) =>
-        log.full_data.about.name.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.full_data.about?.name?.toLowerCase().includes(filterName.toLowerCase()) ||
         log.full_data.todo.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.full_data.about.parent_pid.toString().toLowerCase().includes(filterName.toLowerCase())
+        log.full_data.about?.parent_pid?.toString().toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

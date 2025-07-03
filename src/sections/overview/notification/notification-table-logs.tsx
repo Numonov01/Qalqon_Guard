@@ -33,8 +33,8 @@ export function NotificationTableRow({ row }: Props) {
       <TableRow hover onClick={handleToggle} sx={{ cursor: 'pointer' }}>
         <TableCell>
           <ListItemText
-            primary={row.device_info.name}
-            secondary={row.device_info.bios_uuid}
+            primary={row.device_info?.name}
+            secondary={row.device_info?.bios_uuid}
             primaryTypographyProps={{ typography: 'body2' }}
             secondaryTypographyProps={{
               component: 'span',

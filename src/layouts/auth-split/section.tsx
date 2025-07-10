@@ -30,7 +30,7 @@ export function Section({
   methods,
   title = 'Manage the job',
   imgUrl = `${CONFIG.site.basePath}/assets/illustrations/agent.png`,
-  subtitle = 'Qalqon Guard is a platform that helps you manage your job efficiently.',
+  subtitle = 'Qalqon Guard – ishingizni samarali boshqarishga yordam beruvchi platforma.',
   ...other
 }: SectionProps) {
   const theme = useTheme();

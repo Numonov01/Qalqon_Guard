@@ -79,13 +79,13 @@ export function JwtSignInView() {
 
   const renderHead = (
     <Stack spacing={1.5} sx={{ mb: 2 }}>
-      <Typography variant="h5">Sign in to your account</Typography>
+      <Typography variant="h5">Hisobingizga kiring</Typography>
     </Stack>
   );
 
   const renderForm = (
     <Stack spacing={3}>
-      <Field.Text name="username" label="User name" InputLabelProps={{ shrink: true }} />
+      <Field.Text name="username" label="Foydalanuvchi nomi" InputLabelProps={{ shrink: true }} />
 
       <Stack spacing={1.5}>
         <Link
@@ -123,9 +123,9 @@ export function JwtSignInView() {
         type="submit"
         variant="contained"
         loading={isSubmitting}
-        loadingIndicator="Sign in..."
+        loadingIndicator="Tizimga kirish..."
       >
-        Sign in
+        Tizimga kirish
       </LoadingButton>
     </Stack>
   );

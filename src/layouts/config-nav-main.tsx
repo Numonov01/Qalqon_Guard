@@ -61,6 +61,7 @@ export const navData = [
           { title: 'Page 403', path: paths.page403 },
           { title: 'Page 404', path: paths.page404 },
           { title: 'Page 500', path: paths.page500 },
+          { title: 'Page button', path: paths.button },
         ],
       },
       { subheader: 'Dashboard', items: [{ title: 'Dashboard', path: CONFIG.auth.redirectPath }] },

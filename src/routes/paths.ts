@@ -27,6 +27,8 @@ export const paths = {
   page403: '/error/403',
   page404: '/error/404',
   page500: '/error/500',
+  button: '/error/button',
+
   components: '/components',
   docs: 'https://docs.minimals.cc',
   changelog: 'https://docs.minimals.cc/changelog',
@@ -109,6 +111,7 @@ export const paths = {
       suspicious: `${ROOTS.DASHBOARD}/suspicious`,
       driver: `${ROOTS.DASHBOARD}/driver`,
       notification: `${ROOTS.DASHBOARD}/notification`,
+      // button: `${ROOTS.DASHBOARD}/button`,
     },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,

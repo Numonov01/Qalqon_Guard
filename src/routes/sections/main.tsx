@@ -9,6 +9,7 @@ import { SplashScreen } from 'src/components/loading-screen';
 const Page500 = lazy(() => import('src/pages/error/500'));
 const Page403 = lazy(() => import('src/pages/error/403'));
 const Page404 = lazy(() => import('src/pages/error/404'));
+const PageButton = lazy(() => import('src/pages/error/button'));
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ export const mainRoutes = [
       { path: '500', element: <Page500 /> },
       { path: '404', element: <Page404 /> },
       { path: '403', element: <Page403 /> },
+      { path: 'button', element: <PageButton /> },
     ],
   },
 ];

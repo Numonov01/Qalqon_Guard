@@ -25,11 +25,11 @@ import { OrderTableRow } from '../suspicious-table-logs';
 import { EdrTableToolbar } from '../suspicious-table-toolbar';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Device' },
-  { id: 'name', label: 'File name' },
-  { id: 'risk_score', label: 'Risk score' },
+  { id: 'name', label: 'Qurilma' },
+  { id: 'name', label: 'File nomi' },
+  { id: 'risk_score', label: 'Risk darajasi' },
   //   { id: 'is_quarantined', label: 'Is quarantined' },
-  { id: 'created_at', label: 'Reated date' },
+  { id: 'created_at', label: 'Yaratilgan sana' },
   { id: '', width: 88 },
 ];
 

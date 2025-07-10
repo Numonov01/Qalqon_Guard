@@ -27,9 +27,9 @@ import { EdrTableToolbar } from '../edr-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'Id' },
-  { id: 'direction', label: 'Direction' },
+  { id: 'direction', label: 'Joylashuvi' },
   { id: 'action', label: 'Action' },
-  { id: 'log_type', label: 'Log type' },
+  { id: 'log_type', label: 'Log tiplari' },
   { id: '', width: 88 },
 ];
 
@@ -155,7 +155,7 @@ function applyFilter({
     data = data.filter(
       (log) =>
         log.action.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.direction.toLowerCase().includes(filterName.toLowerCase()) ||
+        log.full_info.toLowerCase().includes(filterName.toLowerCase()) ||
         log.device?.name?.toLowerCase().includes(filterName.toLowerCase())
     );
   }

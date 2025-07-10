@@ -6,7 +6,7 @@ import OverviewDriverLoadView from 'src/sections/overview/driver-load/view/overv
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Driver load | Dashboard - ${CONFIG.site.name}` };
+const metadata = { title: `Drayverni yuklash | Dashboard - ${CONFIG.site.name}` };
 
 export default function Page() {
   return (

@@ -103,7 +103,7 @@ export function OrderTableRow({ row }: Props) {
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
                 <ListItemText
-                  primary="Full info"
+                  primary="Toʻliq maʼlumot"
                   secondary={row.full_info}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{

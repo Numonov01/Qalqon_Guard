@@ -25,7 +25,7 @@ import { NotificationTableRow } from '../notification-table-logs';
 import { NotificationTableToolbar } from '../notification-table-toolbar';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Device' },
+  { id: 'name', label: 'Qurilma' },
   { id: 'todo', label: 'Todo' },
   { id: 'is_approved', label: 'Ruxsatlar' },
   // { id: 'timestamp', label: 'Time stamp' },
@@ -78,10 +78,10 @@ export default function OverviewNotificationView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Xabarnoma "
+        heading="Bildirishnoma"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Xabarnoma', href: paths.dashboard.general.detect },
+          { name: 'Bildirishnoma', href: paths.dashboard.general.detect },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
@@ -156,7 +156,7 @@ function applyFilter({
       (log) =>
         log.full_data.about?.name?.toLowerCase().includes(filterName.toLowerCase()) ||
         log.full_data.todo.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.full_data.about?.parent_pid?.toString().toLowerCase().includes(filterName.toLowerCase())
+        log.full_data.about?.reason?.toString().toLowerCase().includes(filterName.toLowerCase())
     );
   }
 

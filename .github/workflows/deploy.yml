@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          port: 5232
+          port: 6601
           source: 'dist/*'
           target: '/home/dlp/frontend/dist/'
 
@@ -40,6 +40,6 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          port: 5232
+          port: 6601
           script: |
             sudo systemctl reload nginx

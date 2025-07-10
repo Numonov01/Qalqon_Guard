@@ -76,7 +76,7 @@ export function NotificationsDrawer() {
       >
         <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Notifications
+            Bildirishnomalar
           </Typography>
 
           <Tooltip title="Mark all as blocked">

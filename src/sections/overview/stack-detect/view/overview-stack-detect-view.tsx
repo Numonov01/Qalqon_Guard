@@ -25,10 +25,10 @@ import { OrderTableRow } from '../stack-detect-table-logs';
 import { EdrTableToolbar } from '../stack-detect-table-toolbar';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Device' },
-  { id: 'event_type', label: 'Event type' },
+  { id: 'name', label: 'Qurilma' },
+  { id: 'event_type', label: 'Event tiplari' },
   { id: 'severity', label: 'Severity' },
-  { id: 'timestamp', label: 'Time stamp' },
+  { id: 'timestamp', label: 'Vaqt stampi' },
   { id: '', width: 88 },
 ];
 

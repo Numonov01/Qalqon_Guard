@@ -75,7 +75,7 @@ export function DriverLoadTableRow({ row }: Props) {
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
                 <ListItemText
-                  primary="Full data"
+                  primary="Toʻliq maʼlumot"
                   secondary={row.full_data}
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{

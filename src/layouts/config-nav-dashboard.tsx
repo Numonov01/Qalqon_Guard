@@ -73,7 +73,7 @@ export const navData = [
         icon: ICONS.file,
       },
       {
-        title: 'Driver load',
+        title: 'Drayverni yuklash',
         path: paths.dashboard.general.driver,
         icon: ICONS.order,
       },
@@ -91,12 +91,12 @@ export const navData = [
     subheader: 'Management',
     items: [
       {
-        title: 'Yara rule',
+        title: 'YARA qoidasi',
         path: paths.dashboard.user.root,
         icon: ICONS.disabled,
         children: [
-          { title: 'List', path: paths.dashboard.user.list },
-          { title: 'Create', path: paths.dashboard.user.new },
+          { title: 'Roʻyxat', path: paths.dashboard.user.list },
+          { title: 'Yaratish', path: paths.dashboard.user.new },
           // { title: 'Edit', path: paths.dashboard.user.demo.edit },
         ],
       },
@@ -105,8 +105,8 @@ export const navData = [
         path: paths.dashboard.signature.root,
         icon: ICONS.booking,
         children: [
-          { title: 'List', path: paths.dashboard.signature.list },
-          { title: 'Create', path: paths.dashboard.signature.new },
+          { title: 'Roʻyxat', path: paths.dashboard.signature.list },
+          { title: 'Yaratish', path: paths.dashboard.signature.new },
           // { title: 'Edit', path: paths.dashboard.signature.demo.edit },
         ],
       },

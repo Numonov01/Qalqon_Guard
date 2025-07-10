@@ -80,7 +80,7 @@ export function YaraRuleListView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Yara rule"
+        heading="YARA qoidasi"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
           { name: 'Rule', href: paths.dashboard.user.root },

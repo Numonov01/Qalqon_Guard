@@ -108,10 +108,10 @@ export function UserTable({
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell>Qurilma nomi</TableCell>
               <TableCell>Bios</TableCell>
-              <TableCell>IP Address</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Ip manzili</TableCell>
+              <TableCell>Holati</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

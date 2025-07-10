@@ -121,7 +121,7 @@ export function OrderTableRow({ row }: Props) {
                   }}
                 >
                   <ListItemText
-                    primary="Full info"
+                    primary="Toʻliq maʼlumot"
                     secondary={row.full_data}
                     primaryTypographyProps={{ typography: 'body2' }}
                     secondaryTypographyProps={{

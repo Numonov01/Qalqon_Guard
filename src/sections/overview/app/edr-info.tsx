@@ -65,21 +65,21 @@ export function AppTopAuthors({ title, subheader, ...other }: Props) {
   const edrStats: EdrStatItem[] = [
     {
       id: 'signatures',
-      name: 'Signatures',
+      name: 'Signaturalar',
       value: edrInfo.signatures_count,
       icon: 'solar:shield-check-bold',
       color: 'warning',
     },
     {
       id: 'yara',
-      name: 'Yara rules',
+      name: 'YARA qoidalar',
       value: edrInfo.yara_rules_count,
       icon: 'solar:shield-check-bold',
       color: 'info',
     },
     {
       id: 'devices',
-      name: 'Devices',
+      name: 'Qurilmalar',
       value: edrInfo.devices_count,
       icon: 'solar:shield-check-bold',
       color: 'success',

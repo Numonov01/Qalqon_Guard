@@ -42,9 +42,9 @@ import { EdrTableToolbar } from '../edr-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'Id' },
-  { id: 'direction', label: 'Direction' },
+  { id: 'direction', label: 'Joylashuvi' },
   { id: 'action', label: 'Action' },
-  { id: 'log_type', label: 'Log type' },
+  { id: 'log_type', label: 'Log tiplari' },
   { id: '', width: 88 },
 ];
 
@@ -97,13 +97,13 @@ export default function OverviewAppView() {
         <Stack spacing={2} sx={{ px: 2, mt: 3, mb: 2 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <FormControl size="small" sx={{ minWidth: 280 }}>
-              <InputLabel>Pc</InputLabel>
+              <InputLabel>Qurilma</InputLabel>
               <Select
                 value={deviceFilter}
                 onChange={(e) => handleDeviceFilterChange(e.target.value as string)}
                 label="Device"
               >
-                <MenuItem value="all">All Pc</MenuItem>
+                <MenuItem value="all">Hamma qurilmalar</MenuItem>
                 {availableDevice.map((device) => (
                   <MenuItem key={device} value={device}>
                     {device}
@@ -117,7 +117,7 @@ export default function OverviewAppView() {
               size="small"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Search devices..."
+              placeholder="Qurilmalarni qidirish..."
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -143,7 +143,7 @@ export default function OverviewAppView() {
       </Card>
 
       <Grid xs={12} md={6} lg={4}>
-        <AppTopAuthors title="Edr info" />
+        <AppTopAuthors title="Edr ma'lumot" />
       </Grid>
 
       <Card sx={{ mt: 3 }}>
@@ -199,7 +199,7 @@ export default function OverviewAppView() {
 
       <Grid container spacing={2} sx={{ mt: 3 }}>
         <Grid item xs={12} md={12} lg={12}>
-          <LogStatsChart title="Real-time Edr Logs" />
+          <LogStatsChart title="Real vaqtdagi Edr Loglari" />
         </Grid>
       </Grid>
     </DashboardContent>

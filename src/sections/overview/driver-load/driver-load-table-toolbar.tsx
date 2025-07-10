@@ -23,7 +23,7 @@ export function DriverLoadTableToolbar({ filterName, onFilterName }: Props) {
           fullWidth
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search customer or order number..."
+          placeholder="Toʻliq maʼlumotlarni yoki qurilma nomini qidiring..."
           size="small"
           InputProps={{
             startAdornment: (

@@ -22,7 +22,7 @@ export function EdrTableToolbar({ filterName, onFilterName }: Props) {
           fullWidth
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search customer or order number..."
+          placeholder="Toʻliq maʼlumotlarni yoki qurilma nomini qidirish..."
           size="small"
           InputProps={{
             startAdornment: (

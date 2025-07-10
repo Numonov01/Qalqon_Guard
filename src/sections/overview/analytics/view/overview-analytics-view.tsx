@@ -27,10 +27,10 @@ import { EdrTableToolbar } from '../edr-table-full-toolbar';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'Id' },
-  { id: 'name', label: 'Name' },
-  { id: 'risk_ball', label: 'Risk ball' },
-  { id: 'created_at', label: 'Created at' },
-  { id: 'is_active', label: 'Status' },
+  { id: 'name', label: 'Qurilma nomi' },
+  { id: 'risk_ball', label: 'Risk ballari' },
+  { id: 'created_at', label: 'Yaratilgan sana' },
+  { id: 'is_active', label: 'Holati' },
   { id: '', width: 88 },
 ];
 

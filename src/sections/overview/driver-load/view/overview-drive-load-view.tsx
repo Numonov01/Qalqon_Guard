@@ -27,8 +27,8 @@ import { DriverLoadTableToolbar } from '../driver-load-table-toolbar';
 const TABLE_HEAD = [
   { id: 'name', label: 'Device' },
   { id: 'bios_uuid', label: 'Bios uuid' },
-  { id: 'ip_address', label: 'Ip address' },
-  { id: 'created_at', label: 'Created date' },
+  { id: 'ip_address', label: 'Ip manzili' },
+  { id: 'created_at', label: 'Yaratilgan sana' },
   { id: '', width: 88 },
 ];
 
@@ -78,10 +78,10 @@ export default function OverviewDriverLoadView() {
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
-        heading="Driver load"
+        heading="Drayverni yuklash"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Driver load', href: paths.dashboard.general.suspicious },
+          { name: 'Drayverni yuklash', href: paths.dashboard.general.suspicious },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

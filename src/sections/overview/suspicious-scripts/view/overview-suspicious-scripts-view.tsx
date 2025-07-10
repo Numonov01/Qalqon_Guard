@@ -25,11 +25,11 @@ import { OrderTableRow } from '../suspicious-scripts-table-logs';
 import { EdrTableToolbar } from '../suspicious-scripts-table-toolbar';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Device' },
-  { id: 'name', label: 'Exe name' },
-  { id: 'risk_score', label: 'Risk score' },
+  { id: 'name', label: 'Qurilma' },
+  { id: 'name', label: 'Exe nomi' },
+  { id: 'risk_score', label: 'Risk darajasi' },
   { id: 'pid', label: 'Pid' },
-  { id: 'created_at', label: 'Created date' },
+  { id: 'created_at', label: 'Yaratilgan sana' },
   { id: '', width: 88 },
 ];
 

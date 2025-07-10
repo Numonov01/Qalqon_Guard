@@ -133,12 +133,12 @@ export function NewEditForm({ yaraRule }: Props) {
               display="grid"
               // gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
             >
-              <Field.Text name="name" label="Yara rule name" />
+              <Field.Text name="name" label="YARA qoida nomi" />
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!yaraRule ? 'Create yara rule' : 'Save changes'}
+                {!yaraRule ? 'YARA qoida yaratish' : "O'zgarishlarni saqlash"}
               </LoadingButton>
             </Stack>
           </Card>

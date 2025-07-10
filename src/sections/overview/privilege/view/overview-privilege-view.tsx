@@ -25,10 +25,10 @@ import { OrderTableRow } from '../privilege-table-logs';
 import { EdrTableToolbar } from '../privilege-table-toolbar';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'ip_addres', label: 'Ip_addres' },
-  { id: 'risk_ball', label: 'Risk ball' },
-  { id: 'action_taken', label: 'Action taken' },
+  { id: 'name', label: 'Qurilma' },
+  { id: 'ip_addres', label: 'Ip manzili' },
+  { id: 'risk_ball', label: 'Risk ballari' },
+  { id: 'action_taken', label: "Ko'rilgan chora" },
   { id: '', width: 88 },
 ];
 
@@ -81,7 +81,7 @@ export default function OverviewPrivilegeView() {
         heading="Imtiyozlarni oshirish"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Privilege', href: paths.dashboard.general.privilege },
+          { name: 'Imtiyozlarni oshirish', href: paths.dashboard.general.privilege },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

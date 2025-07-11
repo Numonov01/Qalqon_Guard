@@ -16,9 +16,17 @@ export const fetchNotificationList = async (): Promise<WSNotification> => {
   }
 };
 
-export const fetchNotification = async (page = 1): Promise<NotificationList> => {
+export const fetchNotification = async (
+  page = 1,
+  full_data_search = ''
+): Promise<NotificationList> => {
   try {
-    const response = await api.get(`/malicious_file_detects/approve-to-run/?page=${page}`);
+    const params: Record<string, any> = { page };
+    if (full_data_search) params.full_data_search = full_data_search;
+
+    const response = await api.get(`/malicious_file_detects/approve-to-run/?page=${page}`, {
+      params,
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching list:', error);

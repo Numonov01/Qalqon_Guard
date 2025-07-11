@@ -26,9 +26,9 @@ import { NotificationTableToolbar } from '../notification-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Qurilma' },
+  { id: 'description', label: 'Tavsif' },
   { id: 'todo', label: 'Todo' },
   { id: 'is_approved', label: 'Ruxsatlar' },
-  // { id: 'timestamp', label: 'Time stamp' },
   { id: '', width: 88 },
 ];
 

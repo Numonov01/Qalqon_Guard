@@ -3,6 +3,7 @@ import type { WSNotification } from 'src/types/notification';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import { Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
@@ -43,6 +44,8 @@ export function NotificationTableRow({ row }: Props) {
             }}
           />
         </TableCell>
+
+        <TableCell>{row.full_data.description}</TableCell>
 
         <TableCell>{row.full_data.todo}</TableCell>
         <TableCell>
@@ -96,17 +99,6 @@ export function NotificationTableRow({ row }: Props) {
           >
             <Paper sx={{ m: 1.5 }}>
               <Stack direction="row" alignItems="center" spacing={2} sx={{ p: 2 }}>
-                <ListItemText
-                  primary={row.full_data.about.reason}
-                  secondary={row.full_data.description}
-                  primaryTypographyProps={{ typography: 'body2' }}
-                  secondaryTypographyProps={{
-                    component: 'span',
-                    color: 'text.disabled',
-                    mt: 0.5,
-                  }}
-                />
-
                 <Box>
                   <ListItemText
                     primary="File Hash"
@@ -119,18 +111,6 @@ export function NotificationTableRow({ row }: Props) {
                     }}
                   />
                 </Box>
-                {/* <Box sx={{ width: 210, textAlign: 'right' }}>
-                  <ListItemText
-                    primary={fDate(row.full_data.full_data.timestamp)}
-                    secondary={fTime(row.full_data.full_data.timestamp)}
-                    primaryTypographyProps={{ typography: 'body2' }}
-                    secondaryTypographyProps={{
-                      component: 'span',
-                      color: 'text.disabled',
-                      mt: 0.5,
-                    }}
-                  />
-                </Box> */}
               </Stack>
             </Paper>
 
@@ -146,34 +126,29 @@ export function NotificationTableRow({ row }: Props) {
                     mt: 0.5,
                   }}
                 />
-                {/* <Box>
-                  <Typography variant="subtitle2" gutterBottom>
-                    CMD line
-                  </Typography>
-                  <Stack spacing={1}>
-                    {Object.entries(row.full_data.about.cmdline).map(([key, value]) => (
-                      <Box key={key} sx={{ display: 'flex', gap: 1 }}>
-                        <Typography variant="body2" fontWeight="bold">
-                          {key}:
-                        </Typography>
-                        <Typography variant="body2">{value}</Typography>
-                      </Box>
-                    ))}
-                  </Stack>
-                </Box> */}
+              </Stack>
+            </Paper>
 
-                {/* <Box>
+            <Paper sx={{ m: 1.5 }}>
+              <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
+                <Box>
                   <Typography variant="subtitle2" gutterBottom>
-                    Indicators
+                    Reason
                   </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap">
-                    {row.full_data.about.mitre_ids.map((mitre_ids) => (
-                      <Label key={mitre_ids} variant="soft" color="info">
-                        {mitre_ids}
+                    {Array.isArray(row.full_data.about.reason) ? (
+                      row.full_data.about.reason.map((reason: string) => (
+                        <Label key={reason} variant="soft" color="info">
+                          {reason}
+                        </Label>
+                      ))
+                    ) : (
+                      <Label variant="soft" color="info">
+                        {row.full_data.about.reason}
                       </Label>
-                    ))}
+                    )}
                   </Stack>
-                </Box> */}
+                </Box>
               </Stack>
             </Paper>
           </Collapse>

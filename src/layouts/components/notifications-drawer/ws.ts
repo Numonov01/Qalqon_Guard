@@ -10,20 +10,22 @@ const api = axios.create({
 export const fetchNotificationList = async (): Promise<WSNotification[]> => {
   try {
     const response = await api.get('/malicious_file_detects/approve-to-run/', {
-      params: { is_viwed: false }, // faqat ko‘rilmaganlar
+      // params: { is_viwed: false }, // faqat ko‘rilmaganlar
     });
     const results = response.data?.results || [];
 
-    return results
-      .filter((item: any) => item.is_viwed === false)
-      .map((item: any) => ({
-        id: item.id,
-        event: 'new_approval_request',
-        full_data: item.full_data,
-        device_info: item.device_info,
-        is_viwed: item.is_viwed,
-        is_approved: item.is_approved,
-      }));
+    return (
+      results
+        // .filter((item: any) => item.is_viwed === false)
+        .map((item: any) => ({
+          id: item.id,
+          event: 'new_approval_request',
+          full_data: item.full_data,
+          device_info: item.device_info,
+          is_viwed: item.is_viwed,
+          is_approved: item.is_approved,
+        }))
+    );
   } catch (error) {
     console.error('Error fetching notification list:', error);
     return [];

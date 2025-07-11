@@ -124,15 +124,15 @@ export function NotificationItem({
                 '&:hover': { backgroundColor: '#FFF0D9' },
               }}
             >
-              Batafsil maʼlumotlar
+              File maʼlumotlari:
             </Button>
 
             <Collapse in={expanded}>
               <Stack spacing={2}>
                 <Box>
-                  <Typography variant="subtitle2" gutterBottom>
+                  {/* <Typography variant="subtitle2" gutterBottom>
                     File maʼlumotlari:
-                  </Typography>
+                  </Typography> */}
                   <Box
                     sx={{
                       backgroundColor: '#FFF7EB',
@@ -151,7 +151,7 @@ export function NotificationItem({
                         mb: 0.5,
                       }}
                     >
-                      {data?.file_hash || 'Nomaʼlum'}
+                      <strong>File hash:</strong> {data?.file_hash || 'Nomaʼlum'}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -162,7 +162,7 @@ export function NotificationItem({
                         mb: 0.5,
                       }}
                     >
-                      {data?.file_path || 'Nomaʼlum'}
+                      <strong>File path:</strong> {data?.file_path || 'Nomaʼlum'}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -173,7 +173,7 @@ export function NotificationItem({
                         mb: 0.5,
                       }}
                     >
-                      {data?.reason || 'Nomaʼlum'}
+                      <strong>Reason:</strong> {data?.reason || 'Nomaʼlum'}
                     </Typography>
                   </Box>
                 </Box>

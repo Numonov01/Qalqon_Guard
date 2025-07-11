@@ -38,9 +38,12 @@ export const fetchEdrInfo = async (): Promise<EdrInfo> => {
 // };
 
 // not ws
-export const fetchEdrLogsList = async (page = 1): Promise<EdrLogsList> => {
+export const fetchEdrLogsList = async (page = 1, search = ''): Promise<EdrLogsList> => {
   try {
-    const response = await api.get(`/malicious_file_detects/edr-logs/?page=${page}`);
+    const params: Record<string, any> = { page };
+    if (search) params.search = search;
+
+    const response = await api.get(`/malicious_file_detects/edr-logs/`, { params });
     return response.data;
   } catch (error) {
     console.error('Error fetching edr logs list:', error);

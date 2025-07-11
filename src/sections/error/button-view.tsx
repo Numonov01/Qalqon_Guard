@@ -38,15 +38,15 @@ export function ButtonView() {
             variant="contained"
             onClick={toggleColor}
             sx={{
-              backgroundColor: isRed ? 'red' : 'green',
+              backgroundColor: isRed ? '#ff1744' : '#00e676',
               '&:hover': {
-                backgroundColor: isRed ? '#c62828' : '#2e7d32',
+                backgroundColor: isRed ? '#c4001d' : '#00c853',
               },
-              fontSize: isMobile ? '16px' : '24px',
-              width: isMobile ? '100%' : '1000px',
-              height: isMobile ? '200px' : '500px',
-              borderRadius: '12px',
-              fontWeight: 700,
+              fontSize: isMobile ? '34px' : '80px',
+              width: isMobile ? 'calc(100vw - 50px)' : '500px',
+              height: isMobile ? 'calc(100vw - 50px)' : '500px',
+              borderRadius: '50%',
+              fontWeight: 900,
               textTransform: 'none',
               boxShadow: 4,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -56,7 +56,7 @@ export function ButtonView() {
               textOverflow: 'ellipsis',
             }}
           >
-            {isRed ? 'QIZIL' : 'YASHIL'}
+            {isRed ? 'ACTIVATED' : 'DISABLED'}
           </Button>
 
           <Button component={RouterLink} href="/" size="large" variant="contained">

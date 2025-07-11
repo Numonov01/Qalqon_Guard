@@ -39,19 +39,18 @@ export default function OverviewStackDetectView() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [rowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const table = useTable({
     defaultOrderBy: 'orderNumber',
     defaultRowsPerPage: 10,
   });
 
-  const [filterName, setFilterName] = useState('');
-
   useEffect(() => {
     const loadDetectionLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchStackDetectionList(page);
+        const data = await fetchStackDetectionList(page, searchQuery);
         setStackDetectionLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
@@ -61,18 +60,23 @@ export default function OverviewStackDetectView() {
       }
     };
     loadDetectionLogs();
-  }, [page]);
+  }, [page, searchQuery]);
 
   const dataFiltered = applyFilter({
     inputData: stackDetectionLogs,
     comparator: getComparator(table.order, table.orderBy),
-    filterName,
+    filterName: '',
   });
 
   const notFound = !dataFiltered.length && !loading;
 
   const handlePageChange = (_: unknown, newPage: number) => {
     setPage(newPage + 1);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setPage(1);
   };
 
   return (
@@ -88,8 +92,8 @@ export default function OverviewStackDetectView() {
 
       <Card>
         <EdrTableToolbar
-          filterName={filterName}
-          onFilterName={(e) => setFilterName(e.target.value)}
+          filterName={searchQuery}
+          onFilterName={(e) => handleSearch(e.target.value)}
         />
 
         <Box sx={{ position: 'relative' }}>
@@ -149,16 +153,5 @@ function applyFilter({
     return a[1] - b[1];
   });
 
-  let data = stabilizedThis.map((el) => el[0]);
-
-  if (filterName) {
-    data = data.filter(
-      (log) =>
-        log.device_info.name.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.event_type.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.severity.toLowerCase().includes(filterName.toLowerCase())
-    );
-  }
-
-  return data;
+  return stabilizedThis.map((el) => el[0]);
 }

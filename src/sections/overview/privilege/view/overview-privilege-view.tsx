@@ -39,19 +39,18 @@ export default function OverviewPrivilegeView() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [rowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const table = useTable({
     defaultOrderBy: 'orderNumber',
     defaultRowsPerPage: 10,
   });
 
-  const [filterName, setFilterName] = useState('');
-
   useEffect(() => {
     const loadPrivilegeLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchPrivilegeList(page);
+        const data = await fetchPrivilegeList(page, searchQuery);
         setPrivilegeLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
@@ -61,12 +60,12 @@ export default function OverviewPrivilegeView() {
       }
     };
     loadPrivilegeLogs();
-  }, [page]);
+  }, [page, searchQuery]);
 
   const dataFiltered = applyFilter({
     inputData: privilegeLogs,
     comparator: getComparator(table.order, table.orderBy),
-    filterName,
+    filterName: '',
   });
 
   const notFound = !dataFiltered.length && !loading;
@@ -75,6 +74,10 @@ export default function OverviewPrivilegeView() {
     setPage(newPage + 1);
   };
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setPage(1);
+  };
   return (
     <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
@@ -88,8 +91,8 @@ export default function OverviewPrivilegeView() {
 
       <Card>
         <EdrTableToolbar
-          filterName={filterName}
-          onFilterName={(e) => setFilterName(e.target.value)}
+          filterName={searchQuery}
+          onFilterName={(e) => handleSearch(e.target.value)}
         />
 
         <Box sx={{ position: 'relative' }}>
@@ -135,7 +138,6 @@ export default function OverviewPrivilegeView() {
 function applyFilter({
   inputData,
   comparator,
-  filterName,
 }: {
   inputData: Privilege[];
   comparator: (a: any, b: any) => number;
@@ -149,16 +151,5 @@ function applyFilter({
     return a[1] - b[1];
   });
 
-  let data = stabilizedThis.map((el) => el[0]);
-
-  if (filterName) {
-    data = data.filter(
-      (log) =>
-        log.pid.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.device.name.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.action_taken.toLowerCase().includes(filterName.toLowerCase())
-    );
-  }
-
-  return data;
+  return stabilizedThis.map((el) => el[0]);
 }

@@ -164,6 +164,17 @@ export function NotificationItem({
                     >
                       {data?.file_path || 'Nomaʼlum'}
                     </Typography>
+                    <Typography
+                      variant="body2"
+                      component="div"
+                      sx={{
+                        fontFamily: 'monospace',
+                        fontSize: '0.8rem',
+                        mb: 0.5,
+                      }}
+                    >
+                      {data?.reason || 'Nomaʼlum'}
+                    </Typography>
                   </Box>
                 </Box>
               </Stack>

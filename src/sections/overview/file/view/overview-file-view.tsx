@@ -36,23 +36,21 @@ const TABLE_HEAD = [
 export default function OverviewFileView() {
   const [edrLogs, setEdrLogs] = useState<EdrLogs[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [rowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const table = useTable({
     defaultOrderBy: 'orderNumber',
     defaultRowsPerPage: 10,
   });
 
-  const [filterName, setFilterName] = useState('');
-
   useEffect(() => {
     const loadEdrLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchEdrLogsList(page);
+        const data = await fetchEdrLogsList(page, searchQuery);
         setEdrLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
@@ -62,18 +60,23 @@ export default function OverviewFileView() {
       }
     };
     loadEdrLogs();
-  }, [page]);
+  }, [page, searchQuery]);
 
   const dataFiltered = applyFilter({
     inputData: edrLogs,
     comparator: getComparator(table.order, table.orderBy),
-    filterName,
+    filterName: '',
   });
 
   const notFound = !dataFiltered.length && !loading;
 
   const handlePageChange = (_: unknown, newPage: number) => {
     setPage(newPage + 1);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setPage(1);
   };
 
   return (
@@ -88,8 +91,8 @@ export default function OverviewFileView() {
       />
       <Card>
         <EdrTableToolbar
-          filterName={filterName}
-          onFilterName={(e) => setFilterName(e.target.value)}
+          filterName={searchQuery}
+          onFilterName={(e) => handleSearch(e.target.value)}
         />
 
         <Box sx={{ position: 'relative' }}>
@@ -135,7 +138,6 @@ export default function OverviewFileView() {
 function applyFilter({
   inputData,
   comparator,
-  filterName,
 }: {
   inputData: EdrLogs[];
   comparator: (a: any, b: any) => number;
@@ -149,16 +151,5 @@ function applyFilter({
     return a[1] - b[1];
   });
 
-  let data = stabilizedThis.map((el) => el[0]);
-
-  if (filterName) {
-    data = data.filter(
-      (log) =>
-        log.action.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.full_info.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.device?.name?.toLowerCase().includes(filterName.toLowerCase())
-    );
-  }
-
-  return data;
+  return stabilizedThis.map((el) => el[0]);
 }

@@ -39,19 +39,18 @@ export default function OverviewDriverLoadView() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [rowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const table = useTable({
     defaultOrderBy: 'orderNumber',
     defaultRowsPerPage: 10,
   });
 
-  const [filterName, setFilterName] = useState('');
-
   useEffect(() => {
     const loadDriverLoadLogs = async () => {
       try {
         setLoading(true);
-        const data = await fetchDriverLoadList(page);
+        const data = await fetchDriverLoadList(page, searchQuery);
         setDriverLoadLogs(data.results || []);
         setTotalCount(data.count || 0);
       } catch (error) {
@@ -61,18 +60,23 @@ export default function OverviewDriverLoadView() {
       }
     };
     loadDriverLoadLogs();
-  }, [page]);
+  }, [page, searchQuery]);
 
   const dataFiltered = applyFilter({
     inputData: driverLoadLogs,
     comparator: getComparator(table.order, table.orderBy),
-    filterName,
+    filterName: '',
   });
 
   const notFound = !dataFiltered.length && !loading;
 
   const handlePageChange = (_: unknown, newPage: number) => {
     setPage(newPage + 1);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setPage(1);
   };
 
   return (
@@ -88,8 +92,8 @@ export default function OverviewDriverLoadView() {
 
       <Card>
         <DriverLoadTableToolbar
-          filterName={filterName}
-          onFilterName={(e) => setFilterName(e.target.value)}
+          filterName={searchQuery}
+          onFilterName={(e) => handleSearch(e.target.value)}
         />
 
         <Box sx={{ position: 'relative' }}>
@@ -135,7 +139,6 @@ export default function OverviewDriverLoadView() {
 function applyFilter({
   inputData,
   comparator,
-  filterName,
 }: {
   inputData: DriverLoad[];
   comparator: (a: any, b: any) => number;
@@ -149,16 +152,5 @@ function applyFilter({
     return a[1] - b[1];
   });
 
-  let data = stabilizedThis.map((el) => el[0]);
-
-  if (filterName) {
-    data = data.filter(
-      (log) =>
-        log.device_info.name.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.device_info.bios_uuid.toLowerCase().includes(filterName.toLowerCase()) ||
-        log.full_data.toLowerCase().includes(filterName.toLowerCase())
-    );
-  }
-
-  return data;
+  return stabilizedThis.map((el) => el[0]);
 }

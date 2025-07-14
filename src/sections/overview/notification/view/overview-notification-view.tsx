@@ -29,6 +29,7 @@ const TABLE_HEAD = [
   { id: 'description', label: 'Tavsif' },
   { id: 'todo', label: 'Todo' },
   { id: 'is_approved', label: 'Ruxsatlar' },
+  { id: 'action', label: 'Action' },
   { id: '', width: 88 },
 ];
 

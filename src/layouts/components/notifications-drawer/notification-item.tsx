@@ -1,16 +1,9 @@
 import type { WSNotification } from 'src/types/notification';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Box, Card, Stack, Alert, Button, Divider, Collapse, Typography } from '@mui/material';
-import {
-  Block,
-  Security,
-  Computer,
-  ExpandMore,
-  ExpandLess,
-  CheckCircle,
-} from '@mui/icons-material';
+import { Block, Security, Computer, CheckCircle } from '@mui/icons-material';
+import { Box, Card, Stack, Alert, Button, Divider, Typography } from '@mui/material';
 
 import { updateNotificationViewStatus } from './ws';
 
@@ -23,7 +16,7 @@ export function NotificationItem({
   onAllow: (id: number) => void;
   onBlock: (id: number) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  // const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (!notification.is_viwed) {
@@ -115,7 +108,7 @@ export function NotificationItem({
           <Divider />
 
           <Box>
-            <Button
+            {/* <Button
               onClick={() => setExpanded(!expanded)}
               endIcon={expanded ? <ExpandLess /> : <ExpandMore />}
               sx={{
@@ -125,60 +118,67 @@ export function NotificationItem({
               }}
             >
               File maʼlumotlari:
-            </Button>
+            </Button> */}
 
-            <Collapse in={expanded}>
-              <Stack spacing={2}>
-                <Box>
-                  {/* <Typography variant="subtitle2" gutterBottom>
-                    File maʼlumotlari:
-                  </Typography> */}
-                  <Box
+            {/* <Collapse in={expanded}> */}
+            <Stack spacing={2}>
+              <Box>
+                <Typography
+                  variant="subtitle2"
+                  gutterBottom
+                  sx={{
+                    mb: 1,
+                    color: '#FDA94E',
+                  }}
+                >
+                  File maʼlumotlari:
+                </Typography>
+                <Box
+                  sx={{
+                    backgroundColor: '#FFF7EB',
+                    borderRadius: 1,
+                    p: 1,
+                    maxHeight: 150,
+                    overflow: 'auto',
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    component="div"
                     sx={{
-                      backgroundColor: '#FFF7EB',
-                      borderRadius: 1,
-                      p: 1,
-                      maxHeight: 150,
-                      overflow: 'auto',
+                      fontFamily: 'monospace',
+                      fontSize: '0.8rem',
+                      mb: 0.5,
                     }}
                   >
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      sx={{
-                        fontFamily: 'monospace',
-                        fontSize: '0.8rem',
-                        mb: 0.5,
-                      }}
-                    >
-                      <strong>File hash:</strong> {data?.file_hash || 'Nomaʼlum'}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      sx={{
-                        fontFamily: 'monospace',
-                        fontSize: '0.8rem',
-                        mb: 0.5,
-                      }}
-                    >
-                      <strong>File path:</strong> {data?.file_path || 'Nomaʼlum'}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      component="div"
-                      sx={{
-                        fontFamily: 'monospace',
-                        fontSize: '0.8rem',
-                        mb: 0.5,
-                      }}
-                    >
-                      <strong>Reason:</strong> {data?.reason || 'Nomaʼlum'}
-                    </Typography>
-                  </Box>
+                    <strong>File hash:</strong> {data?.file_hash || 'Nomaʼlum'}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    component="div"
+                    sx={{
+                      fontFamily: 'monospace',
+                      fontSize: '0.8rem',
+                      mb: 0.5,
+                    }}
+                  >
+                    <strong>File path:</strong> {data?.file_path || 'Nomaʼlum'}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    component="div"
+                    sx={{
+                      fontFamily: 'monospace',
+                      fontSize: '0.8rem',
+                      mb: 0.5,
+                    }}
+                  >
+                    <strong>Reason:</strong> {data?.reason || 'Nomaʼlum'}
+                  </Typography>
                 </Box>
-              </Stack>
-            </Collapse>
+              </Box>
+            </Stack>
+            {/* </Collapse> */}
           </Box>
 
           {(todo || notification.event) && (

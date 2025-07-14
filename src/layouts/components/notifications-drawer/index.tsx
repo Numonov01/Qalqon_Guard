@@ -72,7 +72,7 @@ export function NotificationsDrawer() {
         open={drawer.value}
         onClose={drawer.onFalse}
         anchor="right"
-        PaperProps={{ sx: { width: 1, maxWidth: 420 } }}
+        PaperProps={{ sx: { width: 1, maxWidth: 720 } }}
       >
         <Stack direction="row" alignItems="center" sx={{ p: 2 }}>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>

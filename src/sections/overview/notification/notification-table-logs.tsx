@@ -3,14 +3,19 @@ import type { WSNotification } from 'src/types/notification';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
+import { Tooltip, Typography } from '@mui/material';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
+
+import {
+  updateNotification,
+  useWebSocketNotifications,
+} from 'src/layouts/components/notifications-drawer/ws';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
@@ -21,12 +26,31 @@ type Props = {
 
 export function NotificationTableRow({ row }: Props) {
   const collapse = useBoolean();
+  const { setNotifications } = useWebSocketNotifications();
 
   const handleToggle = (e: React.MouseEvent) => {
     if ((e.target as Element).closest('button')) {
       return;
     }
     collapse.onToggle();
+  };
+
+  const handleAllow = async (id: number) => {
+    try {
+      await updateNotification(id, 'APPROVE');
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    } catch (error) {
+      console.error('Failed to allow notification:', error);
+    }
+  };
+
+  const handleBlock = async (id: number) => {
+    try {
+      await updateNotification(id, 'REJECT');
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    } catch (error) {
+      console.error('Failed to block notification:', error);
+    }
   };
 
   return (
@@ -61,19 +85,45 @@ export function NotificationTableRow({ row }: Props) {
             {row.is_approved}
           </Label>
         </TableCell>
+        <TableCell align="right">
+          <Stack direction="row" spacing={0.5} alignItems="center">
+            <Tooltip title="Allow">
+              <IconButton
+                color="success"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAllow(row.id);
+                }}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'success.light',
+                    color: 'success.contrastText',
+                  },
+                }}
+              >
+                <Iconify icon="eva:checkmark-fill" width={20} />
+              </IconButton>
+            </Tooltip>
 
-        {/* <TableCell>
-          <ListItemText
-            primary={fDate(row.full_data.about.timestamp)}
-            secondary={fTime(row.full_data.about.timestamp)}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{
-              component: 'span',
-              color: 'text.disabled',
-              mt: 0.5,
-            }}
-          />
-        </TableCell> */}
+            <Tooltip title="Block">
+              <IconButton
+                color="error"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleBlock(row.id);
+                }}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'error.light',
+                    color: 'error.contrastText',
+                  },
+                }}
+              >
+                <Iconify icon="eva:close-fill" width={20} />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        </TableCell>
 
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <IconButton

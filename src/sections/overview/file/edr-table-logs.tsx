@@ -94,7 +94,7 @@ export function OrderTableRow({ row }: Props) {
                   <Box sx={{ flexGrow: 1 }} />
                   <Box>{row.device.ip_addres || 'N/A'}</Box>
                   <Box sx={{ width: 210, textAlign: 'right' }}>
-                    {row.device.created_at ? fDateTime(row.device.created_at) : 'N/A'}
+                    {row.find_on_device_time ? fDateTime(row.find_on_device_time) : 'N/A'}
                   </Box>
                 </Stack>
               )}
